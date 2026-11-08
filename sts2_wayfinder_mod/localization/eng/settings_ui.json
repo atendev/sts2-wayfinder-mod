@@ -2,5 +2,5 @@
   "STS2_WAYFINDER_MOD.mod_title": "Wayfinder",
   "STS2_WAYFINDER_MOD-ENABLE_WAYFINDER.title": "Enable Wayfinder",
   "STS2_WAYFINDER_MOD-ENABLE_WAYFINDER.hover.title": "Enable Wayfinder",
-  "STS2_WAYFINDER_MOD-ENABLE_WAYFINDER.hover.desc": "Combine and reshuffle each act's encounters into a single unified path."
+  "STS2_WAYFINDER_MOD-ENABLE_WAYFINDER.hover.desc": "Combine and reshuffle each act's points into a single unified path. Takes effect when you start a new run. A run in progress stays as it is."
 }
