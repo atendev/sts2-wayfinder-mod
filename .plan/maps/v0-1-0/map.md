@@ -33,6 +33,7 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
 - [Rewrite each act's map into a unified path](./tickets/12-rewrite-map.md): a Harmony prefix swaps each fresh map in a Wayfinder run for a `UnifiedActMap` shaped like the golden path, verified by build and harness but not yet in-game.
 - [Draw the unified path as a switchback](./tickets/13-draw-switchback.md): a `SetMap` postfix moves points into ranks from a game-free layout and redraws every link, with stock drawing below 26 points, verified by build, tests, and reflection but not yet in-game.
 - [Extend the normal encounter list on Wayfinder runs](./tickets/14-extend-encounter-list.md): a transpiler on `GenerateRooms` doubles the weak draws and the list length when the toggle is on, verified by build and against the real IL but not yet applied in-game.
+- [Turn the Act 3 chest relic check off when Act 3 starts](./tickets/15-act-3-relic-check.md): a postfix returns `CurrentActIndex < 2` on a unified path and leaves other runs vanilla, verified by build and the IL dump but not yet applied in-game.
 
 ## Not yet specified
 
