@@ -19,3 +19,15 @@ _Avoid_: Route, snake, combined path
 **Ordering rules**:
 The constraints that decide where each point type may sit on the unified path, such as keeping elites apart and not clustering treasure.
 _Avoid_: Balance, scaling
+
+**Path layout**:
+How the points of a unified path are arranged on the map screen, independent of their order.
+_Avoid_: Shape, map shape
+
+**Switchback**:
+The path layout that runs the unified path back and forth across the map in ranks that alternate direction, from the Ancient at the bottom center to the boss at the top center.
+_Avoid_: Snake, zigzag
+
+**Rank**:
+One horizontal stretch of a switchback. A rank is a screen arrangement and is separate from the game's map rows, which still hold one point each.
+_Avoid_: Row, line, tier
