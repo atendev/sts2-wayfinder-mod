@@ -15,5 +15,6 @@
 
     <ItemGroup>
         <Compile Include="../../sts2_wayfinder_modCode/Ordering/**/*.cs" LinkBase="Ordering"/>
+        <Compile Include="../../sts2_wayfinder_modCode/Layout/**/*.cs" LinkBase="Layout"/>
     </ItemGroup>
 </Project>
