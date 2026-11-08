@@ -36,6 +36,7 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
 - [Turn the Act 3 chest relic check off when Act 3 starts](./tickets/15-act-3-relic-check.md): a postfix returns `CurrentActIndex < 2` on a unified path and leaves other runs vanilla, verified by build and the IL dump but not yet applied in-game.
 - [Say on the EnableWayfinder hover tip that it needs a new run](./tickets/16-toggle-hover-tip.md): the existing `.hover.desc` text now says the toggle takes effect on a new run and leaves a run in progress alone, verified by JSON parse but not yet seen in-game.
 - [Reword the README and manifest for each act](./tickets/17-reword-readme-manifest.md): both now say every point in each act goes into one unified path for that act.
+- [Play a full act in-game and write the changelog entry](./tickets/18-playthrough.md): a full act played from the Ancient to the boss with nothing off, and the v0.1.0 changelog entry is final. Point and combat counts were not recorded.
 
 ## Not yet specified
 

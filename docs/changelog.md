@@ -1,8 +1,8 @@
 # Changelog
 
-## v0.1.0 (in progress)
+## v0.1.0
 
-- Added the ordering engine, which turns an act's mix of points and a seeded RNG into one ordered path. It isn't connected to the game's map yet.
+- Added the ordering engine, which turns an act's mix of points and a seeded RNG into one ordered path that the game's map uses.
 - Added an xUnit test project for the ordering rules under `tests/OrderingTests`. It runs without the game.
 - Each act's branching map is now rewritten into one unified path when a Wayfinder run generates it.
 - The map screen now draws a unified path of 26 or more points as a switchback. Shorter paths keep the stock single column.
