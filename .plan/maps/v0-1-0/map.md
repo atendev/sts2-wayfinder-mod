@@ -28,6 +28,7 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
 - [Decide where the rewrite happens and how saves behave](./tickets/07-rewrite-integration.md): a prefix on `ModifyGeneratedMapLate` that skips saved maps, seeded by `act_N_wayfinder`, with the toggle read only when a run starts and in-progress runs left vanilla.
 - [Preview sample paths under the ordering rules](./tickets/08-preview-sample-paths.md): the rules read as balanced for every act, with one added preference capping Monsters and Elites at 4 in a row, which gives way before any other preference.
 - [Decide how to handle content built for shorter acts](./tickets/09-content-built-for-shorter-acts.md): Wayfinder runs double weak encounters and make the normal list twice the room count, the Act 3 chest relic check turns off when Act 3 starts, and other floor checks stay as they are.
+- [Decide how the ordering engine gets tested without the game](./tickets/10-test-ordering-engine.md): the engine sits in a game-free folder linked into an xUnit project, takes randomness through one `NextInt` method, and returns the rules it broke so seven required checks can run on fixed seeds.
 
 ## Not yet specified
 
