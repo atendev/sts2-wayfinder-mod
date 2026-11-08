@@ -26,6 +26,7 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
 - [Choose how the unified path is laid out on screen](./tickets/05-path-layout-on-screen.md): a switchback drawn by one `SetMap` postfix over one-point-per-row data, from the Ancient at bottom center to the boss at top center, with stock drawing below 26 points.
 - [Define the ordering rules](./tickets/06-ordering-rules.md): hard spacing rules with a fight first and a rest last, Elites, Rest sites, and Shops spread evenly with seeded jitter, chests random and capped at 3 in a row, and a fixed break order so ordering never fails.
 - [Decide where the rewrite happens and how saves behave](./tickets/07-rewrite-integration.md): a prefix on `ModifyGeneratedMapLate` that skips saved maps, seeded by `act_N_wayfinder`, with the toggle read only when a run starts and in-progress runs left vanilla.
+- [Preview sample paths under the ordering rules](./tickets/08-preview-sample-paths.md): the rules read as balanced for every act, with one added preference capping Monsters and Elites at 4 in a row, which gives way before any other preference.
 
 ## Not yet specified
 
