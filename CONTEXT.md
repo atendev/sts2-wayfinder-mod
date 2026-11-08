@@ -13,8 +13,16 @@ A combat, as the game itself uses the word. Only some points hold an encounter.
 _Avoid_: Fight, point
 
 **Unified path**:
-The strict line that replaces an act's branching map, holding every point the vanilla map generated. It always starts at the act's Ancient and ends at its boss, and the player never chooses a direction.
+The strict line that replaces an act's branching map, holding every point the vanilla map generated. It always starts at the act's start point and ends at its boss, and the player never chooses a direction.
 _Avoid_: Route, snake, combined path
+
+**Start point**:
+The first point of an act. It is the act's Ancient, except in Act 1 of a run that did not start with Neow, where it is a combat.
+_Avoid_: Row zero, first floor
+
+**Wayfinder run**:
+A run that had the mod enabled when it started. Only a Wayfinder run gets unified paths, and a run in progress never becomes one or stops being one.
+_Avoid_: Modded run
 
 **Ordering rules**:
 The constraints that decide where each point type may sit on the unified path, such as keeping elites apart and not clustering treasure.

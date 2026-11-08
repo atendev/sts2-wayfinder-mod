@@ -7,7 +7,8 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
 - This map overrides wayfinder's plan-only default. It starts with decision tickets and moves on to build tickets once the decisions are in. Later versions get their own maps.
 - Vocabulary lives in `CONTEXT.md`. Use "point" for any stop on the map and keep "encounter" for combats.
 - Settled while charting:
-  - Every act is rewritten on its own. Each act still starts at its Ancient and ends at its boss, and only the points between them change.
+  - Every act is rewritten on its own. Each act still starts at its start point and ends at its boss, and only the points between them change. The start point is the act's Ancient, except a Monster in Act 1 when the run did not start with Neow.
+  - A `GoldenCompass` act keeps its 16-point `GoldenPathActMap`, which is already a strict line in a fixed order. Every act that branches is rewritten.
   - The unified path is a strict line and the player never chooses a direction.
   - Every point the vanilla map generated goes on the path, of all types. It is a reshuffle, not the horizontal joining of existing paths that earlier iterations of this mod used. The goal is to avoid sequences like two elites back to back or five chests in a row.
   - v0.1.0 changes the order of points only, and draws that order on screen.
@@ -24,13 +25,13 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
 - [Find how content pools behave on a longer act](./tickets/04-content-pools-on-long-path.md): pools wrap and never throw, so weak encounters return on a second pass.
 - [Choose how the unified path is laid out on screen](./tickets/05-path-layout-on-screen.md): a switchback drawn by one `SetMap` postfix over one-point-per-row data, from the Ancient at bottom center to the boss at top center, with stock drawing below 26 points.
 - [Define the ordering rules](./tickets/06-ordering-rules.md): hard spacing rules with a fight first and a rest last, Elites, Rest sites, and Shops spread evenly with seeded jitter, chests random and capped at 3 in a row, and a fixed break order so ordering never fails.
+- [Decide where the rewrite happens and how saves behave](./tickets/07-rewrite-integration.md): a prefix on `ModifyGeneratedMapLate` that skips saved maps, seeded by `act_N_wayfinder`, with the toggle read only when a run starts and in-progress runs left vanilla.
 
 ## Not yet specified
 
-- The build tickets. They depend on the ordering and integration decisions still open. Expect slices for the ordering engine, the map rewrite, the switchback drawing patch, and an in-game playthrough.
+- The build tickets. They depend on the decisions still open. Expect slices for the ordering engine, the map rewrite, the switchback drawing patch, the `EnableWayfinder` hover tip saying it needs a new run, and an in-game playthrough.
 - How the ordering engine gets tested without the game running.
 - Rewording the README and manifest, which say "a single act" where the mod means each act individually.
-- Whether the rewrite converts small replacement maps such as `GoldenPathActMap`, and how the `SetMap` postfix recognizes a unified path. Both belong with the rewrite integration decision.
 
 ## Out of scope
 
