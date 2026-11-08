@@ -30,6 +30,7 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
 - [Decide how to handle content built for shorter acts](./tickets/09-content-built-for-shorter-acts.md): Wayfinder runs double weak encounters and make the normal list twice the room count, the Act 3 chest relic check turns off when Act 3 starts, and other floor checks stay as they are.
 - [Decide how the ordering engine gets tested without the game](./tickets/10-test-ordering-engine.md): the engine sits in a game-free folder linked into an xUnit project, takes randomness through one `NextInt` method, and returns the rules it broke so seven required checks can run on fixed seeds.
 - [Build the ordering engine](./tickets/11-build-ordering-engine.md): built in `Ordering/` with integer-only randomness and one Elite gap step, with all seven checks passing and no connection to the game yet.
+- [Rewrite each act's map into a unified path](./tickets/12-rewrite-map.md): a Harmony prefix swaps each fresh map in a Wayfinder run for a `UnifiedActMap` shaped like the golden path, verified by build and harness but not yet in-game.
 
 ## Not yet specified
 
