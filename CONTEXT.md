@@ -12,6 +12,10 @@ _Avoid_: Node, room, encounter
 A combat, as the game itself uses the word. Only some points hold an encounter.
 _Avoid_: Fight, point
 
+**Weak encounter**:
+An easier encounter the game places at the front of an act's encounter list, so the act opens gently.
+_Avoid_: Easy encounter, easy pool
+
 **Unified path**:
 The strict line that replaces an act's branching map, holding every point the vanilla map generated. It always starts at the act's start point and ends at its boss, and the player never chooses a direction.
 _Avoid_: Route, snake, combined path

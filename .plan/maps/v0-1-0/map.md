@@ -11,8 +11,8 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
   - A `GoldenCompass` act keeps its 16-point `GoldenPathActMap`, which is already a strict line in a fixed order. Every act that branches is rewritten.
   - The unified path is a strict line and the player never chooses a direction.
   - Every point the vanilla map generated goes on the path, of all types. It is a reshuffle, not the horizontal joining of existing paths that earlier iterations of this mod used. The goal is to avoid sequences like two elites back to back or five chests in a row.
-  - v0.1.0 changes the order of points only, and draws that order on screen.
-  - v0.1.0 targets single-player. The rewrite stays deterministic from the seeded map RNG so co-op is not blocked later.
+  - v0.1.0 changes the order of points and draws that order on screen. The only exceptions are the encounter list and relic check in [the content decision](./tickets/09-content-built-for-shorter-acts.md).
+  - v0.1.0 targets single-player. The rewrite stays deterministic from the seeded map RNG so co-op is not blocked later. Multiplayer stays untested. The mod adds nothing to protect it or block it, and changes that affect it by proxy are fine.
 - Game facts come from `references/decompiled/` (gitignored), generated from the installed v0.107.1 `sts2.dll`: `sts2.txt` has signatures and calls, `sts2-il.txt` has full IL. Downloading a decompiler was refused in this environment, so don't retry it. Regenerate the files with a local metadata dumper if the game updates.
 - `FightAllChoices` in `references/reference-mods/` shows a working technique but ships no license. Reuse its approach, not its code.
 - Record each mod change in `docs/changelog.md` as build tickets land.
@@ -27,12 +27,11 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
 - [Define the ordering rules](./tickets/06-ordering-rules.md): hard spacing rules with a fight first and a rest last, Elites, Rest sites, and Shops spread evenly with seeded jitter, chests random and capped at 3 in a row, and a fixed break order so ordering never fails.
 - [Decide where the rewrite happens and how saves behave](./tickets/07-rewrite-integration.md): a prefix on `ModifyGeneratedMapLate` that skips saved maps, seeded by `act_N_wayfinder`, with the toggle read only when a run starts and in-progress runs left vanilla.
 - [Preview sample paths under the ordering rules](./tickets/08-preview-sample-paths.md): the rules read as balanced for every act, with one added preference capping Monsters and Elites at 4 in a row, which gives way before any other preference.
+- [Decide how to handle content built for shorter acts](./tickets/09-content-built-for-shorter-acts.md): Wayfinder runs double weak encounters and make the normal list twice the room count, the Act 3 chest relic check turns off when Act 3 starts, and other floor checks stay as they are.
 
 ## Not yet specified
 
-- The build tickets. They depend on the decisions still open. Expect slices for the ordering engine, the map rewrite, the switchback drawing patch, the `EnableWayfinder` hover tip saying it needs a new run, and an in-game playthrough.
-- How the ordering engine gets tested without the game running.
-- Rewording the README and manifest, which say "a single act" where the mod means each act individually.
+Nothing. Every remaining slice has a ticket.
 
 ## Out of scope
 
