@@ -20,7 +20,7 @@ internal static class RewriteMapPatch
             return;
         }
 
-        map = UnifiedActMap.From(map, runState.Rng.Seed, runState.CurrentActIndex + 1);
+        map = UnifiedActMap.From(map, runState.Rng.StringSeed, runState.CurrentActIndex + 1);
     }
 
     private static bool IsWayfinderRun(IRunState runState)

@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.1
+
+- The mod now runs on both the stable and public-beta game builds. Starting a run on public-beta no longer fails with a missing `RunRngSet.get_Seed()` method.
+- The unified path shuffle now derives from the run's seed text, so a given seed produces a different path than it did in v0.1.0.
+
 ## v0.1.0
 
 - Added the ordering engine, which turns an act's mix of points and a seeded RNG into one ordered path that the game's map uses.

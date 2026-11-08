@@ -1,5 +1,4 @@
 using MegaCrit.Sts2.Core.Map;
-using MegaCrit.Sts2.Core.Random;
 using sts2_wayfinder_mod.sts2_wayfinder_modCode.Ordering;
 
 namespace sts2_wayfinder_mod.sts2_wayfinder_modCode.UnifiedPath;
@@ -40,10 +39,9 @@ internal sealed class UnifiedActMap : ActMap
         BossMapPoint.AddChildPoint(SecondBossMapPoint);
     }
 
-    public static UnifiedActMap From(ActMap source, uint seed, int actNumber)
+    public static UnifiedActMap From(ActMap source, string seed, int actNumber)
     {
-        var rng = new Rng(seed, $"act_{actNumber}_wayfinder");
-        var result = PathOrderer.Order(MixOf(source), new SeededOrderingRng(rng));
+        var result = PathOrderer.Order(MixOf(source), new SeededOrderingRng(seed, $"act_{actNumber}_wayfinder"));
         MainFile.Logger.Info($"Act {actNumber}: unified path of {result.Path.Count} points, break step {result.Step}");
         return new UnifiedActMap(source, result.Path);
     }
@@ -89,9 +87,4 @@ internal sealed class UnifiedActMap : ActMap
         PointType.Treasure => MapPointType.Treasure,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
-
-    private sealed class SeededOrderingRng(Rng rng) : IOrderingRng
-    {
-        public int NextInt(int maxExclusive) => rng.NextInt(maxExclusive);
-    }
 }

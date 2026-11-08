@@ -4,7 +4,7 @@
 
 A Slay the Spire 2 mod that turns each act's branching map into one long, reshuffled path.
 
-![Version](https://img.shields.io/badge/version-v0.1.0-blue)
+![Version](https://img.shields.io/badge/version-v0.1.1-blue)
 ![Status](https://img.shields.io/badge/status-in%20development-orange)
 ![Slay the Spire 2](https://img.shields.io/badge/Slay%20the%20Spire%202-0.107.0%2B-b5332e)
 [![BaseLib](https://img.shields.io/badge/BaseLib-3.4.7%2B-6a4fb3)](https://github.com/Alchyr/BaseLib-StS2)
@@ -18,7 +18,7 @@ Why speedrun Slay the Spire 2 when you could take your time, see the sights, and
 Wayfinder takes every point the game generated for an act and puts them all on one line, so you visit each combat, shop, chest, and rest site instead of picking a route past most of them. It doesn't join the existing paths end to end. It reshuffles the points and orders them with spacing rules, so you don't get two Elites back to back or five chests in a row.
 
 > [!WARNING]
-> v0.1.0 is still in development. The mod builds and its ordering tests pass, but nobody has played a full act with it yet. Expect bugs.
+> v0.1.1 is still in development. The mod builds and its ordering tests pass, but it has not been extensively tested. Expect bugs.
 
 ## What it does
 
@@ -49,8 +49,8 @@ Wayfinder takes every point the game generated for an act and puts them all on o
 
 Some acts have a mix of points that can't meet every rule. When that happens, Wayfinder gives up rules in a fixed order, starting with the spread and the run limits on fights. Every point still goes on the path.
 
-<!-- Replace with a screenshot of one act's full path, with its pacing visible. -->
-![Placeholder for a screenshot of a full act's ordered path](https://placehold.co/960x400/png?text=Screenshot+of+a+full+act+path)
+### Example Map
+![A full act's ordered path on the Wayfinder map](/docs/assets/full_wayfinder_map.jpg)
 
 ## Changes beyond the map
 
@@ -97,6 +97,7 @@ The toggle takes effect when you start a new run. A run in progress stays as it 
 
 ## Compatibility
 
+- Works for both the normal version of the game as well as the `public-beta` version.
 - Wayfinder targets single-player. Co-op is untested, and the mod doesn't block it.
 - Other mods that change the map are untested with Wayfinder.
 
