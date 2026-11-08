@@ -9,3 +9,4 @@
 - A Wayfinder run now draws twice as many weak encounters per act, and each act's normal encounter list is twice the room count.
 - On a Wayfinder run, relics limited to before the Act 3 chest now stop appearing when Act 3 starts, instead of at a fixed floor.
 - The Enable Wayfinder hover tip now says the setting takes effect on a new run.
+- The README and mod manifest now say each act gets its own unified path, instead of "a single act".

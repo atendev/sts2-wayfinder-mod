@@ -35,6 +35,7 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
 - [Extend the normal encounter list on Wayfinder runs](./tickets/14-extend-encounter-list.md): a transpiler on `GenerateRooms` doubles the weak draws and the list length when the toggle is on, verified by build and against the real IL but not yet applied in-game.
 - [Turn the Act 3 chest relic check off when Act 3 starts](./tickets/15-act-3-relic-check.md): a postfix returns `CurrentActIndex < 2` on a unified path and leaves other runs vanilla, verified by build and the IL dump but not yet applied in-game.
 - [Say on the EnableWayfinder hover tip that it needs a new run](./tickets/16-toggle-hover-tip.md): the existing `.hover.desc` text now says the toggle takes effect on a new run and leaves a run in progress alone, verified by JSON parse but not yet seen in-game.
+- [Reword the README and manifest for each act](./tickets/17-reword-readme-manifest.md): both now say every point in each act goes into one unified path for that act.
 
 ## Not yet specified
 

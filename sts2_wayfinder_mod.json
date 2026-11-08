@@ -2,7 +2,7 @@
   "id": "sts2_wayfinder_mod",
   "name": "Wayfinder",
   "author": "atendev",
-  "description": "Combines and reshuffles every encounter in a single act into one unified path.",
+  "description": "Combines and reshuffles every point in each act into one unified path for that act.",
   "version": "v0.1.0",
   "min_game_version": "0.107.0",
   "has_pck": true,
