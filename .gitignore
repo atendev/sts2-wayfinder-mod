@@ -16,3 +16,4 @@ references/
 *.import
 .vscode/
 .agent-state.md
+dist/

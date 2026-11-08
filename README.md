@@ -67,7 +67,7 @@ You need Slay the Spire 2 version 0.107.0 or later and [BaseLib](https://github.
 
 1. Create a `mods` folder in the game's install folder if it doesn't exist.
 2. Download BaseLib and unpack it into `mods`.
-3. Get Wayfinder and put it in `mods/sts2_wayfinder_mod/`. There is no public release yet, so [build it from source](#build-from-source) for now. <!-- Replace with a link to the release page once one exists. -->
+3. Download the latest zip from the [releases page](https://github.com/atendev/sts2-wayfinder-mod/releases) and unpack it into `mods`, or [build it from source](#build-from-source).
 4. Launch the game and choose to play modded.
 
 The finished folder looks like this:
@@ -128,3 +128,11 @@ dotnet test tests/OrderingTests
 
 - [Changelog](docs/changelog.md)
 - [Terms used in this project](CONTEXT.md)
+
+## Releasing
+
+Bump `version` in `sts2_wayfinder_mod.json`, add a matching `## vX.Y.Z` section to `docs/changelog.md`, merge to `main`, then run `scripts/release.sh`. It runs the tests, builds the `.pck`, zips the mod, tags the version, and publishes a GitHub release with the changelog section as notes. Use `--dry-run` to build the zip without tagging. The build needs the game's files, so it runs locally, not in CI.
+
+## License
+
+Wayfinder is released under the [MIT License](LICENSE).

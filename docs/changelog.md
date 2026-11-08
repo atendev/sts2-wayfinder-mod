@@ -2,6 +2,7 @@
 
 ## v0.1.1
 
+- Added an MIT license. The release zip now includes the license, README, and changelog.
 - The mod now runs on both the stable and public-beta game builds. Starting a run on public-beta no longer fails with a missing `RunRngSet.get_Seed()` method.
 - The unified path shuffle now derives from the run's seed text, so a given seed produces a different path than it did in v0.1.0.
 
