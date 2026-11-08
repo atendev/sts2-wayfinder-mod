@@ -11,3 +11,6 @@ packages/
 *.user
 Directory.Build.props
 references/
+*.uid
+*.import
+.vscode/

@@ -2,6 +2,7 @@ using System.Reflection;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
+using BaseLib.Config;
 
 namespace sts2_wayfinder_mod.sts2_wayfinder_modCode;
 
@@ -9,7 +10,7 @@ namespace sts2_wayfinder_mod.sts2_wayfinder_modCode;
 [ModInitializer(nameof(Initialize))]
 public partial class MainFile : Node
 {
-    public const string ModId = "sts2_wayfinder_mod"; //At the moment, this is used only for the Logger and harmony names.
+    public const string ModId = "sts2_wayfinder_mod"; //Must match "id" in the manifest.
 
     public static MegaCrit.Sts2.Core.Logging.Logger Logger { get; } = new(ModId, MegaCrit.Sts2.Core.Logging.LogType.Generic);
 
@@ -19,9 +20,11 @@ public partial class MainFile : Node
 
         //If you want to use scripts defined in your mod for Godot scenes, uncomment the following line.
         //Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(assembly);
-     
+
         Harmony harmony = new(ModId);
 
         harmony.PatchAll(assembly);
+
+        ModConfigRegistry.Register(ModId, new WayfinderConfig());
     }
 }
