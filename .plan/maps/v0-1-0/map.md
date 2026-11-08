@@ -23,6 +23,7 @@ Wayfinder v0.1.0 ships: the mod builds, loads in Slay the Spire 2, and replaces 
 - [Trace how the map screen draws and travels](./tickets/03-map-screen-and-travel.md): any grid size saves and draws, spacing and scroll limits are hard-coded, and a line of single children needs no travel patch.
 - [Find how content pools behave on a longer act](./tickets/04-content-pools-on-long-path.md): pools wrap and never throw, so weak encounters return on a second pass.
 - [Choose how the unified path is laid out on screen](./tickets/05-path-layout-on-screen.md): a switchback drawn by one `SetMap` postfix over one-point-per-row data, from the Ancient at bottom center to the boss at top center, with stock drawing below 26 points.
+- [Define the ordering rules](./tickets/06-ordering-rules.md): hard spacing rules with a fight first and a rest last, Elites, Rest sites, and Shops spread evenly with seeded jitter, chests random and capped at 3 in a row, and a fixed break order so ordering never fails.
 
 ## Not yet specified
 

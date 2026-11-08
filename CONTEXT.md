@@ -20,6 +20,18 @@ _Avoid_: Route, snake, combined path
 The constraints that decide where each point type may sit on the unified path, such as keeping elites apart and not clustering treasure.
 _Avoid_: Balance, scaling
 
+**Hard rule**:
+An ordering rule the unified path must meet unless the act's mix of points makes that impossible.
+_Avoid_: Requirement, constraint
+
+**Preference**:
+An ordering rule the unified path aims for and gives up first when the mix of points doesn't allow it.
+_Avoid_: Soft rule, guideline
+
+**Break order**:
+The fixed sequence in which ordering rules give way when an act's mix of points can't satisfy them all.
+_Avoid_: Fallback, relaxation
+
 **Path layout**:
 How the points of a unified path are arranged on the map screen, independent of their order.
 _Avoid_: Shape, map shape
