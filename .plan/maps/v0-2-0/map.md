@@ -33,6 +33,7 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 - [Decide the difficulty settings screen](./tickets/07-difficulty-settings-screen.md) — a preset dropdown under Enable Wayfinder, then open sections of toggles and named choices (3 enemy scaling toggles, card rewards, chest odds, Elite rarity, gold rate), with a hand edit flipping the preset to Custom.
 - [Decide how a run records its difficulty settings](./tickets/08-record-settings-per-run.md) — a snapshot in the run save at run start, and a `<start_time>.wayfinder.json` sidecar written next to the `.run` for Wayfinder runs only; no patch to the history format and nothing shown to the player.
 - [Build enemy scaling for the path curve and bosses](./tickets/09-build-enemy-scaling.md) — `Difficulty/` holds the curve, three toggles, an HP postfix on `CreateCreature` for the encounter's own monsters, and a damage postfix on `Hook.ModifyDamage` that rounds per hit so the intent matches; toggles are hard-wired on until the settings screen lands.
+- [Build the treasure outcome table](./tickets/10-build-treasure-outcome-table.md) — a rolled gold chest empties the relic through a `Hook.ShouldGenerateTreasure` flag and pays the multiplied gold in a `DoTreasureRoomRewards` prefix, with the miss count rebuilt from the map point history and no save data.
 
 ## Not yet specified
 

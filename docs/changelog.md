@@ -3,6 +3,7 @@
 ## v0.2.0 (unreleased)
 
 - Wayfinder runs now scale enemies. Monster, Elite, and Unknown fights get more HP and damage along Acts 2 and 3, and bosses get a fixed boost per act. Act 1 stays vanilla. Scaled attack damage shows in the enemy's intent.
+- Wayfinder treasure chests now roll between a relic chest and a gold chest. A gold chest gives no relic and twice the gold. The relic chance starts at 20% each act, rises 20% per gold chest, resets after a relic chest, and the act's last chest is always a relic chest.
 
 ## v0.1.1
 

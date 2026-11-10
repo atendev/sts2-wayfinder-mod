@@ -9,4 +9,6 @@ internal readonly record struct EnemyScalingToggles(bool ScaleBosses, bool Scale
 internal static class DifficultySettings
 {
     public static EnemyScalingToggles EnemyScaling { get; set; } = EnemyScalingToggles.PowerCurve;
+
+    public static TreasureOdds Treasure { get; set; } = TreasureOdds.Balanced;
 }
