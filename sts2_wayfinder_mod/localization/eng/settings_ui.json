@@ -26,7 +26,7 @@
   "STS2_WAYFINDER_MOD-ALTERNATE_CARD_REWARDS.hover.desc": "Normal combats, including combats from Unknowns, alternate between a card reward and none, starting with a reward. Elites and bosses always give one.",
   "STS2_WAYFINDER_MOD-CARD_CHOICES.title": "Card choices",
   "STS2_WAYFINDER_MOD-CARD_CHOICES.hover.title": "Card choices",
-  "STS2_WAYFINDER_MOD-CARD_CHOICES.hover.desc": "How many cards each card reward offers. Vanilla offers 3.",
+  "STS2_WAYFINDER_MOD-CARD_CHOICES.hover.desc": "How many cards a combat's card reward offers. Vanilla offers 3. Card rewards from relics and events keep their own count.",
   "STS2_WAYFINDER_MOD-TREASURE_CHESTS.title": "Treasure chests",
   "STS2_WAYFINDER_MOD-USE_CHEST_CHANCES.title": "Use treasure chest chances",
   "STS2_WAYFINDER_MOD-USE_CHEST_CHANCES.hover.title": "Use treasure chest chances",
