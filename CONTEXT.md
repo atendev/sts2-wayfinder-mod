@@ -55,3 +55,23 @@ _Avoid_: Snake, zigzag
 **Rank**:
 One horizontal stretch of a switchback. A rank is a screen arrangement and is separate from the game's map rows, which still hold one point each.
 _Avoid_: Row, line, tier
+
+**Difficulty settings**:
+The options that change how hard a Wayfinder run is, separate from the toggle that turns Wayfinder on. They are fixed when a run starts and stay fixed for that run.
+_Avoid_: Balance, balance settings
+
+**Tuning value**:
+One adjustable number in the difficulty settings, such as boss HP or the card reward chance.
+_Avoid_: Knob, slider, option
+
+**Preset**:
+A named set of tuning values the mod ships, such as Off, Bosses only, or Power curve. Changing any tuning value by hand makes the run Custom.
+_Avoid_: Mode, difficulty level
+
+**Enemy scaling**:
+Making enemies stronger than vanilla during a Wayfinder run, according to where the player is on the run.
+_Avoid_: Scaling (alone), buffs
+
+**Reward rate**:
+How often a point pays out a card, relic, gold, or max HP compared with vanilla.
+_Avoid_: Loot, drop rate
