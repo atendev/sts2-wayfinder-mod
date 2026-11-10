@@ -28,11 +28,12 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 - [Find how enemy HP and damage are set and where scaling can hook in](./tickets/02-enemy-stats-and-scaling-hooks.md): ascension is hard-coded per monster and can't be reused, so HP scales through a `CombatState.CreateCreature` postfix and damage through a `ModifyDamageMultiplicative` listener that intents already show.
 - [Find how card rewards, treasure chests, and Elite relics are built](./tickets/03-card-rewards-treasure-elite-relics.md): the 3 card choices are a literal in `RewardsSet.GenerateRewardsFor`, chest relic and gold come from two seeded calls with an empty chest already supported, and Elite rarity shifts by swapping in a `RelicReward` with an explicit rarity.
 - [Find how BaseLib mod config can show presets and tuning values](./tickets/04-baselib-config-and-run-record.md): BaseLib has sliders, dropdowns, toggles, and sections, presets work through `ConfigChanged`, settings ride in the run save, and the `.run` history needs a patch or sidecar to record them.
+- [Decide the enemy scaling curve for Power curve and Bosses only](./tickets/05-enemy-scaling-curve.md): a smooth path curve for Monster, Elite, and Unknown fights from 100% at Act 2's start to 180%/290% HP and 150%/260% damage at the ends of Acts 2 and 3, with boss values per act and 8 tuning values in all.
 
 ## Not yet specified
 
-- The full list of tuning values and each preset's numbers. It comes together after the scaling curve, treasure table, and settings screen are decided.
-- The build tickets for enemy scaling, card rewards, treasure, Elite relic rarity, and the settings screen. Their shape depends on the hooks the research tickets find.
+- The full list of tuning values and each preset's numbers. Enemy scaling's 8 values are settled. The rest comes together after the treasure table and settings screen are decided.
+- The build tickets for card rewards, treasure, Elite relic rarity, and the settings screen. Enemy scaling has [its build ticket](./tickets/09-build-enemy-scaling.md). Their shape depends on the hooks the research tickets find.
 - The playtest-and-tune loop: how many runs, which characters, and when the numbers count as good enough for v0.2.0.
 - Per-fight payouts, such as the 87 to 147 max HP gained from Monster fights. Check whether enemy damage covers them or a playtest shows they still snowball.
 
