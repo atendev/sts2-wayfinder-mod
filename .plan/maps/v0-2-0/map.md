@@ -24,6 +24,7 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 
 ## Decisions so far
 
+- [Commit the run file reader and the v0.1 baseline](./tickets/01-run-file-reader.md): `scripts/run_report.py` reproduces the baseline, labels runs Wayfinder, Vanilla, or Modded, counts shop and event relics through picked relic choices, and reads difficulty settings from a `wayfinder` key or a sidecar.
 - [Find how enemy HP and damage are set and where scaling can hook in](./tickets/02-enemy-stats-and-scaling-hooks.md): ascension is hard-coded per monster and can't be reused, so HP scales through a `CombatState.CreateCreature` postfix and damage through a `ModifyDamageMultiplicative` listener that intents already show.
 - [Find how card rewards, treasure chests, and Elite relics are built](./tickets/03-card-rewards-treasure-elite-relics.md): the 3 card choices are a literal in `RewardsSet.GenerateRewardsFor`, chest relic and gold come from two seeded calls with an empty chest already supported, and Elite rarity shifts by swapping in a `RelicReward` with an explicit rarity.
 - [Find how BaseLib mod config can show presets and tuning values](./tickets/04-baselib-config-and-run-record.md): BaseLib has sliders, dropdowns, toggles, and sections, presets work through `ConfigChanged`, settings ride in the run save, and the `.run` history needs a patch or sidecar to record them.
