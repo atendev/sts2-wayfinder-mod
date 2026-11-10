@@ -37,6 +37,7 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 - [Build the difficulty settings screen](./tickets/11-build-difficulty-settings-screen.md) — the preset dropdown and option sections on `WayfinderConfig` with Custom detection, a run-start snapshot saved in the run save as JSON, and enemy scaling and chests reading it; the Custom banner became a hover tip and the in-game checks are still open.
 - [Build alternating card rewards and the card choice count](./tickets/12-build-card-rewards.md) — a `GenerateRewardsFor` patch applies Card choices to combat rewards only and drops the card reward on every second normal combat, counted per act from `MapPointHistory`, unsubscribing the dropped reward's relic handler.
 - [Build lower Elite relic rarity](./tickets/13-build-elite-relic-rarity.md) — a `GenerateRewardsFor` postfix swaps an Elite's relic reward for one with an explicit rarity rolled 75% Common, 20% Uncommon, 5% Rare from the same reward stream draw; Black Star, events, and shops stay vanilla.
+- [Build the run record sidecar](./tickets/14-build-run-record-sidecar.md) — a `CreateRunHistoryEntry` postfix writes `history/wayfinder/<start_time>.json` for Wayfinder runs, in a subfolder because the game lists every file in `history/` as a run; the in-game confirmation is still open.
 
 ## Not yet specified
 

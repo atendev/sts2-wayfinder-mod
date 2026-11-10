@@ -82,8 +82,10 @@ def collect_run_files(paths: list[str]) -> list[Path]:
 def load_settings(path: Path, run: dict) -> dict | None:
     if isinstance(run.get("wayfinder"), dict):
         return run["wayfinder"]
-    sidecar = path.with_name(path.stem + ".wayfinder.json")
-    if sidecar.is_file():
+    # The mod writes history/wayfinder/<start_time>.json, because the game lists every file in history/ as a run.
+    candidates = [path.parent / "wayfinder" / (path.stem + ".json"), path.with_name(path.stem + ".wayfinder.json")]
+    sidecar = next((c for c in candidates if c.is_file()), None)
+    if sidecar is not None:
         with open(sidecar, encoding="utf-8") as fh:
             settings = json.load(fh)
         if not isinstance(settings, dict):

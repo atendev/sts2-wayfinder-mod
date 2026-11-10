@@ -124,6 +124,13 @@ class RunReportTests(unittest.TestCase):
         summary = run_report.summarize(path)
         self.assertEqual(summary["settings"], {"preset": "BossesOnly"})
 
+    def test_reads_settings_from_wayfinder_folder(self):
+        path = self.write("modded/profile1/saves/history/6.run", self.basic_run())
+        self.write("modded/profile1/saves/history/wayfinder/6.json", {"preset": "PowerCurve", "CardChoices": 4})
+        summary = run_report.summarize(path)
+        self.assertEqual(summary["settings"], {"preset": "PowerCurve", "CardChoices": 4})
+        self.assertEqual(summary["mode"], "Wayfinder")
+
     def test_no_settings_section_without_settings(self):
         summary = run_report.summarize(self.write("profile1/saves/history/1.run", self.basic_run()))
         self.assertNotIn("## Difficulty settings", run_report.render([summary]))

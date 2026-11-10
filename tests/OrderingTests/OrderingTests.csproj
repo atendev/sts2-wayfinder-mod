@@ -21,5 +21,6 @@
         <Compile Include="../../sts2_wayfinder_modCode/Difficulty/DifficultyOptions.cs" LinkBase="Difficulty"/>
         <Compile Include="../../sts2_wayfinder_modCode/Difficulty/CardRewardSchedule.cs" LinkBase="Difficulty"/>
         <Compile Include="../../sts2_wayfinder_modCode/Difficulty/EliteRelicRarity.cs" LinkBase="Difficulty"/>
+        <Compile Include="../../sts2_wayfinder_modCode/Difficulty/RunRecordSidecar.cs" LinkBase="Difficulty"/>
     </ItemGroup>
 </Project>
