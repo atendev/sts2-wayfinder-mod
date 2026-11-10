@@ -18,5 +18,6 @@
         <Compile Include="../../sts2_wayfinder_modCode/Layout/**/*.cs" LinkBase="Layout"/>
         <Compile Include="../../sts2_wayfinder_modCode/Difficulty/EnemyScalingCurve.cs" LinkBase="Difficulty"/>
         <Compile Include="../../sts2_wayfinder_modCode/Difficulty/TreasureChestTable.cs" LinkBase="Difficulty"/>
+        <Compile Include="../../sts2_wayfinder_modCode/Difficulty/DifficultyOptions.cs" LinkBase="Difficulty"/>
     </ItemGroup>
 </Project>

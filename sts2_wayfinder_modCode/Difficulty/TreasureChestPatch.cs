@@ -63,9 +63,12 @@ internal static class TreasureChestOutcomePatch
     {
         TreasureChestState.Clear();
 
-        var odds = DifficultySettings.Treasure;
         var runState = ___playerCollection.Players.FirstOrDefault()?.RunState;
-        if (!odds.Enabled || runState == null || !UnifiedActMap.IsLine(runState.Map) || runState.CurrentMapCoord is not { } coord)
+        if (runState == null || !UnifiedActMap.IsLine(runState.Map) || runState.CurrentMapCoord is not { } coord)
+            return;
+
+        var odds = DifficultySettings.For(runState).Treasure;
+        if (!odds.Enabled)
             return;
 
         // Silver Crucible's emptied chest gets no roll, and its owner is the only player it skips.

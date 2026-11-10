@@ -3,6 +3,7 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
 using BaseLib.Config;
+using sts2_wayfinder_mod.sts2_wayfinder_modCode.Difficulty;
 
 namespace sts2_wayfinder_mod.sts2_wayfinder_modCode;
 
@@ -25,6 +26,7 @@ public partial class MainFile : Node
 
         harmony.PatchAll(assembly);
 
+        DifficultySettings.RegisterSave();
         ModConfigRegistry.Register(ModId, new WayfinderConfig());
     }
 }

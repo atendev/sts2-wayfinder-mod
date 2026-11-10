@@ -15,9 +15,10 @@ internal static class EnemyScalingPatch
     /// <summary>The multiplier for a fight, or 1 when scaling is off for it or the run isn't a Wayfinder line.</summary>
     internal static decimal Factor(IRunState runState, RoomType? roomType, bool hp)
     {
-        var toggles = DifficultySettings.EnemyScaling;
         if (!UnifiedActMap.IsLine(runState.Map))
             return 1m;
+
+        var toggles = DifficultySettings.For(runState).EnemyScaling;
 
         var act = runState.CurrentActIndex;
         if (roomType == RoomType.Boss)
