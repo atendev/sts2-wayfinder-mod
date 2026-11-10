@@ -39,6 +39,7 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 - [Build lower Elite relic rarity](./tickets/13-build-elite-relic-rarity.md) — a `GenerateRewardsFor` postfix swaps an Elite's relic reward for one with an explicit rarity rolled 75% Common, 20% Uncommon, 5% Rare from the same reward stream draw; Black Star, events, and shops stay vanilla.
 - [Build the run record sidecar](./tickets/14-build-run-record-sidecar.md) — a `CreateRunHistoryEntry` postfix writes `history/wayfinder/<start_time>.json` for Wayfinder runs, in a subfolder because the game lists every file in `history/` as a run; the in-game confirmation is still open.
 - [Find where combat, event, and chest gold is paid](./tickets/15-gold-rate-hooks.md) — every gold gain runs through `PlayerCmd.GainGold` and `Hook.ModifyGoldGained`, so one postfix there can apply the Gold rate; it stacks with the chest multiplier, shop prices don't scale, and the reward screen will show unscaled combat gold.
+- [Build the Gold rate](./tickets/16-build-gold-rate.md) — a postfix on `Hook.ModifyGoldGained` scales every gold gain by 75%, 100%, or 125%, rounded per call and gated on the Wayfinder line; the unscaled reward-screen display is still open for a playtest.
 
 ## Not yet specified
 
