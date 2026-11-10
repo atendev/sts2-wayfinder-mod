@@ -72,6 +72,14 @@ _Avoid_: Mode, difficulty level
 Making enemies stronger than vanilla during a Wayfinder run, according to where the player is on the run.
 _Avoid_: Scaling (alone), buffs
 
+**Relic chest**:
+A treasure point's chest that gives a relic and vanilla's gold.
+_Avoid_: Normal chest, full chest
+
+**Gold chest**:
+A treasure point's chest that gives extra gold and no relic, rolled in place of a relic chest.
+_Avoid_: Empty chest
+
 **Reward rate**:
 How often a point pays out a card, relic, gold, or max HP compared with vanilla.
 _Avoid_: Loot, drop rate
