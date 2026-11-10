@@ -17,3 +17,4 @@ references/
 .vscode/
 .agent-state.md
 dist/
+__pycache__/

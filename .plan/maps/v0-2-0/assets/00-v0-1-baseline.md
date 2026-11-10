@@ -1,6 +1,14 @@
 # v0.1 baseline from run history
 
-Measured on 2026-11-10 from the run files in `~/.local/share/SlayTheSpire2/steam/<steamid>/`. Wayfinder runs are under `modded/profile1/saves/history/`, vanilla runs under `profile1/saves/history/`. The draft reader is [01-run-reader-draft.py](./01-run-reader-draft.py).
+Measured on 2026-11-10 from the run files in `~/.local/share/SlayTheSpire2/steam/<steamid>/`. Wayfinder runs are under `modded/profile1/saves/history/`, vanilla runs under `profile1/saves/history/`. The tables were first made with the draft reader [01-run-reader-draft.py](./01-run-reader-draft.py). `scripts/run_report.py` reproduces them:
+
+```
+H=~/.local/share/SlayTheSpire2/steam/YOUR_STEAM_ID
+scripts/run_report.py $H/modded/profile1/saves/history/{1794138344,1794162390}.run \
+  $H/profile1/saves/history/{1788925508,1789541796,1789681248,1789535901}.run
+```
+
+The script also prints Rest site, Ancient, and Boss rows in the by-point-type table. Relics taken count shop and event relics, since the run file lists a bought relic as a picked relic choice too.
 
 ## Runs
 
@@ -40,7 +48,7 @@ Damage is the average damage taken per fight, and turns is the average turns per
 
 ## By point type, whole run
 
-| Run | Source | Points | Relics | Max HP | Cards picked |
+| Run | Source | Points | Relics | Max HP | Cards gained |
 | --- | --- | --- | --- | --- | --- |
 | 1794138344 | Elite | 24 | 24 | 35 | 13 |
 | 1794138344 | Unknown | 33 | 14 | 12 | 9 |
