@@ -38,10 +38,10 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 - [Build alternating card rewards and the card choice count](./tickets/12-build-card-rewards.md) — a `GenerateRewardsFor` patch applies Card choices to combat rewards only and drops the card reward on every second normal combat, counted per act from `MapPointHistory`, unsubscribing the dropped reward's relic handler.
 - [Build lower Elite relic rarity](./tickets/13-build-elite-relic-rarity.md) — a `GenerateRewardsFor` postfix swaps an Elite's relic reward for one with an explicit rarity rolled 75% Common, 20% Uncommon, 5% Rare from the same reward stream draw; Black Star, events, and shops stay vanilla.
 - [Build the run record sidecar](./tickets/14-build-run-record-sidecar.md) — a `CreateRunHistoryEntry` postfix writes `history/wayfinder/<start_time>.json` for Wayfinder runs, in a subfolder because the game lists every file in `history/` as a run; the in-game confirmation is still open.
+- [Find where combat, event, and chest gold is paid](./tickets/15-gold-rate-hooks.md) — every gold gain runs through `PlayerCmd.GainGold` and `Hook.ModifyGoldGained`, so one postfix there can apply the Gold rate; it stacks with the chest multiplier, shop prices don't scale, and the reward screen will show unscaled combat gold.
 
 ## Not yet specified
 
-- The gold rate build: the hook that scales combat and event gold hasn't been researched. [Build the difficulty settings screen](./tickets/11-build-difficulty-settings-screen.md) and [Build alternating card rewards](./tickets/12-build-card-rewards.md) now have tickets, next to [Build the run record sidecar](./tickets/14-build-run-record-sidecar.md), [Build enemy scaling](./tickets/09-build-enemy-scaling.md) and [Build the treasure outcome table](./tickets/10-build-treasure-outcome-table.md).
 - The playtest-and-tune loop: how many runs, which characters, and when the numbers count as good enough for v0.2.0.
 - Per-fight payouts, such as the 87 to 147 max HP gained from Monster fights. Check whether enemy damage covers them or a playtest shows they still snowball.
 
