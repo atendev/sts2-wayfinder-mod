@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.0 (unreleased)
+
+- Wayfinder runs now scale enemies. Monster, Elite, and Unknown fights get more HP and damage along Acts 2 and 3, and bosses get a fixed boost per act. Act 1 stays vanilla. Scaled attack damage shows in the enemy's intent.
+
 ## v0.1.1
 
 - Added an MIT license. The release zip now includes the license, README, and changelog.
