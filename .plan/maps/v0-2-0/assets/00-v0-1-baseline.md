@@ -63,7 +63,7 @@ Damage is the average damage taken per fight, and turns is the average turns per
 
 ## Reading
 
-- By the end of Act 1, a Wayfinder run has as many relics as or more than a whole vanilla run, with 3 to 4 times the Elites.
+- By the end of Act 1, the Wayfinder runs had 22 and 16 relics, against 14 to 19 for a whole vanilla run. They fought 8 and 5 Elites in Act 1, against 1 to 3 per act in vanilla.
 - Act 3 Wayfinder fights end in about 1.5 turns for under 2 damage on Monsters and under 4 on Elites. Vanilla Act 3 fights take 3 to 8 turns and 3 to 45 damage.
 - The player picked a card after about half of Monster fights, so card count alone is not the main source of power.
 - Monster fights give no relics but paid out 87 to 147 max HP, which points to per-fight effects that grow with fight count.

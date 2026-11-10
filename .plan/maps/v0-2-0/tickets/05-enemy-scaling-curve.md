@@ -2,7 +2,7 @@
 type: prototype
 blocked_by: [01, 02]
 undermined_by: []
-assets: []
+assets: [05-enemy-scaling-curve.md, 05-scaling-curve.py, 05-enemy-scaling-curve.html]
 ---
 
 # Decide the enemy scaling curve for Power curve and Bosses only

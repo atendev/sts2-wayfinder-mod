@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Enemy scaling curve candidates</title>
+<style>
+.viz-root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --grid: #e4e3df;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) .viz-root {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --text-primary: #f0efec;
+    --text-secondary: #c3c2b7;
+    --grid: #33322f;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+  }
+}
+:root[data-theme="dark"] .viz-root {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --text-primary: #f0efec;
+  --text-secondary: #c3c2b7;
+  --grid: #33322f;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+}
+body { margin: 0; }
+.viz-root { background: var(--surface-1); color: var(--text-primary); font: 14px/1.4 system-ui, sans-serif; padding: 24px; }
+h1 { font-size: 20px; margin: 0 0 4px; }
+h2 { font-size: 15px; margin: 24px 0 4px; }
+p.sub { color: var(--text-secondary); margin: 0 0 12px; max-width: 70ch; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 8px 0; color: var(--text-secondary); }
+.legend span::before { content: ""; display: inline-block; width: 14px; height: 2px; vertical-align: middle; margin-right: 6px; background: var(--c); }
+.charts { display: flex; gap: 24px; flex-wrap: wrap; }
+.chart { position: relative; }
+svg text { fill: var(--text-secondary); font-size: 11px; }
+svg .grid { stroke: var(--grid); stroke-width: 1; }
+svg .series { fill: none; stroke-width: 2; stroke-linejoin: round; }
+svg .boss { stroke: var(--surface-1); stroke-width: 2; fill: var(--text-primary); }
+svg .xhair { stroke: var(--text-secondary); stroke-width: 1; stroke-dasharray: 3 3; }
+.tip { position: absolute; pointer-events: none; background: var(--surface-1); border: 1px solid var(--grid); border-radius: 6px; padding: 6px 8px; font-size: 12px; white-space: nowrap; display: none; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+.tip b { display: block; margin-bottom: 2px; }
+.tip i { display: inline-block; width: 10px; height: 2px; background: var(--c); vertical-align: middle; margin-right: 6px; }
+table { border-collapse: collapse; margin-top: 8px; font-variant-numeric: tabular-nums; }
+th, td { border-bottom: 1px solid var(--grid); padding: 4px 10px; text-align: right; }
+th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+td.meets { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+<h1>Enemy scaling curve candidates</h1>
+<p class="sub">Multipliers on enemy HP and attack damage for Monster, Elite and Unknown fights, across the run. Dots mark the boss multiplier at the end of each act, the same for every candidate. 1.0 is vanilla.</p>
+<div class="legend" id="legend"></div>
+<div class="charts" id="charts"></div>
+<h2>Projected Act 3 fights</h2>
+<p class="sub">turns = baseline turns &times; mean HP multiplier for the act; damage = baseline damage &times; mean HP &times; mean damage multiplier. Player power held at v0.1 and block ignored, so this is what scaling alone does before the reward cuts.</p>
+<div id="table"></div>
+</div>
+<script>
+const DATA = {"names": ["A. Stepped per act", "B. Smooth along the run", "C. Step plus ramp"], "candidates": {"A. Stepped per act": {"hp": [[1.0, 1.0], [1.45, 1.45], [2.35, 2.35]], "dmg": [[1.0, 1.0], [1.3, 1.3], [2.05, 2.05]]}, "B. Smooth along the run": {"hp": [[1.0, 1.0], [1.0, 1.8], [1.8, 2.9]], "dmg": [[1.0, 1.0], [1.0, 1.5], [1.5, 2.6]]}, "C. Step plus ramp": {"hp": [[1.0, 1.0], [1.25, 1.65], [2.0, 2.7]], "dmg": [[1.0, 1.0], [1.15, 1.45], [1.6, 2.5]]}}, "boss": {"hp": [1.0, 1.3, 1.5], "dmg": [1.0, 1.15, 1.25]}, "rows": [["A. Stepped per act", "Monster", "1.5", "1.6", "2.35", "2.05", "3.4", "7.8", "n/a"], ["A. Stepped per act", "Elite", "1.7", "3.2", "2.35", "2.05", "4.0", "15.6", "meets"], ["A. Stepped per act", "Boss", "4.5", "13.5", "1.50", "1.25", "6.8", "25.3", "meets"], ["B. Smooth along the run", "Monster", "1.5", "1.6", "2.35", "2.05", "3.4", "7.8", "n/a"], ["B. Smooth along the run", "Elite", "1.7", "3.2", "2.35", "2.05", "4.0", "15.6", "meets"], ["B. Smooth along the run", "Boss", "4.5", "13.5", "1.50", "1.25", "6.8", "25.3", "meets"], ["C. Step plus ramp", "Monster", "1.5", "1.6", "2.35", "2.05", "3.4", "7.8", "n/a"], ["C. Step plus ramp", "Elite", "1.7", "3.2", "2.35", "2.05", "4.0", "15.6", "meets"], ["C. Step plus ramp", "Boss", "4.5", "13.5", "1.50", "1.25", "6.8", "25.3", "meets"]]};
+const COLORS = ["var(--series-1)", "var(--series-2)", "var(--series-3)"];
+const W = 460, H = 260, M = {l: 40, r: 12, t: 12, b: 28};
+const x = p => M.l + p / 3 * (W - M.l - M.r);
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; };
+const valueAt = (acts, p) => { const a = Math.min(2, Math.floor(p)); const f = p - a; const [s, e] = acts[a]; return s + (e - s) * f; };
+
+const legend = document.getElementById("legend");
+DATA.names.forEach((n, i) => { const s = document.createElement("span"); s.style.setProperty("--c", COLORS[i]); s.textContent = n; legend.appendChild(s); });
+
+for (const [key, title] of [["hp", "Enemy HP multiplier"], ["dmg", "Enemy damage multiplier"]]) {
+  const wrap = document.createElement("div"); wrap.className = "chart";
+  const h = document.createElement("h2"); h.textContent = title; wrap.appendChild(h);
+  const svg = el("svg", {width: W, height: H, role: "img", "aria-label": title});
+  const max = key === "hp" ? 3.0 : 2.6;
+  const y = v => H - M.b - (v - 1) / (max - 1) * (H - M.t - M.b);
+  for (let v = 1; v <= max + 1e-9; v += 0.2) {
+    el("line", {class: "grid", x1: M.l, x2: W - M.r, y1: y(v), y2: y(v)}, svg);
+    el("text", {x: M.l - 6, y: y(v) + 4, "text-anchor": "end"}, svg).textContent = v.toFixed(1);
+  }
+  ["Act 1", "Act 2", "Act 3", "End"].forEach((t, i) => el("text", {x: x(i), y: H - 8, "text-anchor": i === 0 ? "start" : i === 3 ? "end" : "middle"}, svg).textContent = t);
+  DATA.names.forEach((n, i) => {
+    const acts = DATA.candidates[n][key];
+    let d = "";
+    acts.forEach(([s, e], a) => { d += `${d ? "L" : "M"}${x(a)},${y(s)}L${x(a + 1)},${y(e)}`; });
+    el("path", {class: "series", d, stroke: COLORS[i]}, svg);
+  });
+  DATA.boss[key].forEach((v, a) => el("circle", {class: "boss", cx: x(a + 1) - 4, cy: y(v), r: 4.5}, svg));
+  const xh = el("line", {class: "xhair", y1: M.t, y2: H - M.b, visibility: "hidden"}, svg);
+  const hit = el("rect", {x: M.l, y: M.t, width: W - M.l - M.r, height: H - M.t - M.b, fill: "transparent"}, svg);
+  const tip = document.createElement("div"); tip.className = "tip";
+  hit.addEventListener("mousemove", ev => {
+    const r = svg.getBoundingClientRect();
+    const px = ev.clientX - r.left;
+    const p = Math.max(0, Math.min(2.999, (px - M.l) / (W - M.l - M.r) * 3));
+    xh.setAttribute("x1", px); xh.setAttribute("x2", px); xh.setAttribute("visibility", "visible");
+    const act = Math.floor(p) + 1, pct = Math.round((p - act + 1) * 100);
+    tip.innerHTML = `<b>Act ${act}, ${pct}% along the path</b>` + DATA.names.map((n, i) => `<div style="--c:${COLORS[i]}"><i></i>${n}: ${valueAt(DATA.candidates[n][key], p).toFixed(2)}&times;</div>`).join("") + `<div>Boss Act ${act}: ${DATA.boss[key][act - 1].toFixed(2)}&times;</div>`;
+    tip.style.display = "block";
+    tip.style.left = Math.min(px + 12, W - 200) + "px";
+    tip.style.top = (ev.clientY - r.top + 30) + "px";
+  });
+  hit.addEventListener("mouseleave", () => { tip.style.display = "none"; xh.setAttribute("visibility", "hidden"); });
+  wrap.appendChild(svg); wrap.appendChild(tip);
+  document.getElementById("charts").appendChild(wrap);
+}
+
+const t = document.createElement("table");
+t.innerHTML = "<tr><th>Curve</th><th>Fight</th><th>Baseline turns</th><th>Baseline dmg</th><th>HP &times;</th><th>Dmg &times;</th><th>Projected turns</th><th>Projected dmg</th><th>Target</th></tr>" +
+  DATA.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td>${r.slice(2, 8).map(v => `<td>${v}</td>`).join("")}<td class="${r[8]}">${r[8]}</td></tr>`).join("");
+document.getElementById("table").appendChild(t);
+</script>
+</body>
+</html>
