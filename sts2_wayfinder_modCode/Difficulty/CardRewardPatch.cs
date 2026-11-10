@@ -15,10 +15,16 @@ internal static class CardRewardState
     /// <summary>The Card choices option, set only while <c>GenerateRewardsFor</c> runs on a Wayfinder line, so relic, event, and Prayer Wheel card rewards keep their own counts.</summary>
     public static int? ChoiceCount { get; set; }
 
-    /// <summary>Normal combats fought earlier in the run, rebuilt from the map point history so a save and reload gives the same result. Unknown points that rolled a combat count; the current point never does.</summary>
-    public static int EarlierNormalCombats(IRunState runState) =>
-        runState.MapPointHistory.SelectMany(act => act)
+    /// <summary>Normal combats fought earlier in the current act, rebuilt from the map point history so a save and reload gives the same result. Unknown points that rolled a combat count; the current point never does.</summary>
+    public static int EarlierNormalCombats(IRunState runState)
+    {
+        var act = runState.CurrentActIndex;
+        if (act >= runState.MapPointHistory.Count)
+            return 0;
+
+        return runState.MapPointHistory[act]
             .Count(entry => !ReferenceEquals(entry, runState.CurrentMapPointHistoryEntry) && entry.HasRoomOfType(RoomType.Monster));
+    }
 }
 
 /// <summary>Applies Card choices to the room's card reward and drops it on every second normal combat when card rewards alternate. Gold and potions stay.</summary>
