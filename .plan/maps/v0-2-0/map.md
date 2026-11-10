@@ -1,6 +1,6 @@
 ## Destination
 
-Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power curve presets plus per-value tuning. A Power curve run has been played and measured against the v0.1 baseline, with Act 3 Elites and bosses averaging 4 or more turns and 15 or more damage taken, and `docs/changelog.md` has a v0.2.0 entry.
+Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power curve presets plus toggle and named-choice options. A Power curve run has been played and measured against the v0.1 baseline, with Act 3 Elites and bosses averaging 4 or more turns and 15 or more damage taken, and `docs/changelog.md` has a v0.2.0 entry.
 
 ## Notes
 
@@ -30,11 +30,11 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 - [Find how BaseLib mod config can show presets and tuning values](./tickets/04-baselib-config-and-run-record.md): BaseLib has sliders, dropdowns, toggles, and sections, presets work through `ConfigChanged`, settings ride in the run save, and the `.run` history needs a patch or sidecar to record them.
 - [Decide the enemy scaling curve for Power curve and Bosses only](./tickets/05-enemy-scaling-curve.md): a smooth path curve for Monster, Elite, and Unknown fights from 100% at Act 2's start to 180%/290% HP and 150%/260% damage at the ends of Acts 2 and 3, with boss values per act and 8 tuning values in all.
 - [Decide the treasure outcome table](./tickets/06-treasure-outcome-table.md) — a chest is a relic chest or a gold chest at 2x vanilla gold, with a relic chance that starts at 20% per act, rises 20% per miss, resets on a relic, and forces a relic on the act's last chest; 3 tuning values.
+- [Decide the difficulty settings screen](./tickets/07-difficulty-settings-screen.md) — a preset dropdown under Enable Wayfinder, then open sections of toggles and named choices (3 enemy scaling toggles, card rewards, chest odds, Elite rarity, gold rate), with a hand edit flipping the preset to Custom.
 
 ## Not yet specified
 
-- The full list of tuning values and each preset's numbers. Enemy scaling's 8 values and treasure's 3 are settled. The rest comes together after the settings screen is decided.
-- The build tickets for card rewards, Elite relic rarity, and the settings screen. Enemy scaling and treasure have build tickets: [Build enemy scaling](./tickets/09-build-enemy-scaling.md) and [Build the treasure outcome table](./tickets/10-build-treasure-outcome-table.md). Their shape depends on the hooks the research tickets find.
+- The gold rate build: the hook that scales combat and event gold hasn't been researched. [Build the difficulty settings screen](./tickets/11-build-difficulty-settings-screen.md), [Build alternating card rewards](./tickets/12-build-card-rewards.md), and [Build lower Elite relic rarity](./tickets/13-build-elite-relic-rarity.md) now have tickets, next to [Build enemy scaling](./tickets/09-build-enemy-scaling.md) and [Build the treasure outcome table](./tickets/10-build-treasure-outcome-table.md).
 - The playtest-and-tune loop: how many runs, which characters, and when the numbers count as good enough for v0.2.0.
 - Per-fight payouts, such as the 87 to 147 max HP gained from Monster fights. Check whether enemy damage covers them or a playtest shows they still snowball.
 

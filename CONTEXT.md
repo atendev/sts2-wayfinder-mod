@@ -61,8 +61,8 @@ The options that change how hard a Wayfinder run is, separate from the toggle th
 _Avoid_: Balance, balance settings
 
 **Tuning value**:
-One adjustable number in the difficulty settings, such as boss HP or the card reward chance.
-_Avoid_: Knob, slider, option
+One option in the difficulty settings, such as Scale bosses, Card choices, or Chest odds. It is a toggle or a named choice. The numbers behind it are fixed in code.
+_Avoid_: Knob, slider
 
 **Preset**:
 A named set of tuning values the mod ships, such as Off, Bosses only, or Power curve. Changing any tuning value by hand makes the run Custom.

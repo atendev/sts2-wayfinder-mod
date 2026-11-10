@@ -1,0 +1,106 @@
+<!doctype html>
+<!-- PROTOTYPE, throwaway. Question: how do the v0.2.0 difficulty settings sit in the BaseLib mod config screen?
+     Two layouts, all built only from what BaseLib 3.4.7 supports: tickbox, one slider (card choices), enum dropdown,
+     [ConfigSection] (collapsible), [ConfigVisibleIf], [ConfigHoverTip]. Preset numbers come from tickets 05 and 06, simplified to toggles and named options.
+     State is in memory only. Hover a row to see its hover tip, as the game shows it. -->
+<meta charset="utf-8">
+<title>PROTOTYPE: Wayfinder difficulty settings screen</title>
+<style>
+  body{margin:0;background:#15121a;color:#e8dcc0;font:15px/1.4 system-ui,sans-serif;display:flex;gap:24px;padding:24px 24px 90px}
+  #screen{width:560px;background:#241d2e;border:2px solid #6b5a3a;border-radius:10px;padding:14px 18px}
+  #side{flex:1;max-width:420px}
+  h1{font-size:18px;margin:0 0 10px;color:#f0c870}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 6px;border-radius:4px}
+  .row:hover{background:#33293f}
+  .row label{flex:1}
+  .row input[type=range]{width:200px}
+  .val{width:52px;text-align:right;font-variant-numeric:tabular-nums}
+  .sec{margin-top:10px;border-top:1px solid #4a3e5a}
+  .sec>.hd{cursor:pointer;color:#f0c870;padding:6px 4px;user-select:none}
+  .sec>.hd::before{content:"\25BE  "} .sec.closed>.hd::before{content:"\25B8  "}
+  .sec.closed>.body{display:none}
+  .dim{opacity:.4;pointer-events:none}
+  select{background:#15121a;color:#e8dcc0;border:1px solid #6b5a3a;padding:3px 6px;font-size:15px}
+  .note{font-size:12px;color:#a99d84;padding:2px 6px 6px}
+  #tip{background:#15121a;border:1px solid #6b5a3a;border-radius:6px;padding:10px;min-height:80px}
+  #tip b{color:#f0c870}
+  code{background:#15121a;padding:1px 4px;border-radius:3px;font-size:12px}
+  #bar{position:fixed;bottom:0;left:0;right:0;background:#0c0a10;border-top:1px solid #6b5a3a;padding:10px;text-align:center}
+  #bar button{background:#241d2e;color:#e8dcc0;border:1px solid #6b5a3a;padding:6px 14px;margin:0 4px;cursor:pointer}
+  #bar button.on{background:#6b5a3a;color:#fff}
+  .banner{background:#4a3a1a;border:1px solid #c9a24a;border-radius:4px;padding:4px 8px;margin:4px 6px;font-size:13px}
+</style>
+
+<div id="screen"></div>
+<div id="side">
+  <h1>Hover tip (what the game shows)</h1>
+  <div id="tip">Hover a row.</div>
+  <h1 style="margin-top:20px" id="vh"></h1>
+  <div id="vd" class="note" style="font-size:13px"></div>
+  <h1 style="margin-top:20px">Current values</h1>
+  <pre id="dump" style="font-size:12px;background:#15121a;padding:8px;border-radius:6px"></pre>
+</div>
+<div id="bar"></div>
+
+<script>
+// ---- model: options, preset numbers. Kinds: t toggle, s slider, d dropdown (opts). ----
+// key, group, label, kind, [Off, BossesOnly, PowerCurve], tip, extra (slider min,max,step,fmt | dropdown options), visibleIf key
+const T = [
+ ['bossScale','enemy','Scale bosses','t',[false,true,true],'Act 2 and Act 3 bosses get more HP and deal more damage (Act 2: +30% HP, +15% damage. Act 3: +50% HP, +25% damage). Act 1 stays vanilla. Intents show the scaled damage.'],
+ ['pathHp','enemy','Scale fight HP along the path','t',[false,false,true],'Monster, Elite and Unknown fights get more HP the further you are along the path from the start of Act 2, up to about +90% by the end of Act 3. Act 1 stays vanilla.'],
+ ['pathDmg','enemy','Scale fight damage along the path','t',[false,false,true],'Monster, Elite and Unknown fights deal more damage the further you are along the path from the start of Act 2, up to about +160% by the end of Act 3. Act 1 stays vanilla.'],
+ ['alt','cards','Alternate card rewards','t',[false,false,true],'Normal combats, including combats from Unknowns, alternate between a card reward and none, starting with a reward. Elites and bosses always give one.'],
+ ['choices','cards','Card choices','s',[3,3,4],'How many cards each card reward shows. Vanilla shows 3.',[3,5,1,'']],
+ ['chestOn','treasure','Use treasure chest chances','t',[false,false,true],'Chests roll between a relic chest and a gold chest instead of always holding a relic. Gold chests hold no relic. The last chest of each act always holds a relic. Off is vanilla.'],
+ ['chestOdds','treasure','Chest odds','d',[1,1,1],'How often a chest holds a relic. Generous: starts at 25%, +25% after each gold chest. Balanced: 20%, +20%. Stingy: 15%, +15%. A relic chest resets the chance. Gold chests give extra gold (Generous 2x, Balanced 2x, Stingy 1.5x vanilla).',['Generous','Balanced','Stingy'],'chestOn'],
+ ['elite','elite','Lower Elite relic rarity','t',[false,false,true],'Elites still always drop a relic, but it shifts toward Common.'],
+ ['gold','gold','Gold rate','d',[1,1,1],'Gold from combats and events. Lean: 75% of vanilla. Vanilla: 100%. Rich: 125%.',['Lean','Vanilla','Rich']],
+];
+const GROUPS = {enemy:'Enemy scaling',cards:'Card rewards',treasure:'Treasure chests',elite:'Elite relics',gold:'Gold'};
+const PRESETS = ['Off','Bosses only','Power curve','Custom'];
+const S = {wayfinder:true, preset:2}; T.forEach(t=>S[t[0]]=t[4][2]);
+const closed = {};
+let variant = 'A';
+const WAYFINDER_TIP = 'Combine and reshuffle each act\'s points into a single unified path. Takes effect when you start a new run. A run in progress stays as it is.';
+const PRESET_TIP = 'Difficulty preset for new runs. Off keeps vanilla numbers. Bosses only scales bosses and changes nothing else. Power curve cuts rewards and raises enemy scaling through Acts 2 and 3. Changing any option below makes the run Custom. Takes effect when you start a new run.';
+
+// ---- ConfigChanged logic: preset applies numbers, hand edit flips to Custom ----
+function applyPreset(i){ S.preset=i; if(i<3) T.forEach(t=>S[t[0]]=t[4][i]); }
+function matches(i){ return T.every(t=>S[t[0]]===t[4][i]); }
+function setVal(k,v){ S[k]=v; if(S.preset<3 && !matches(S.preset)) S.preset=3; else if(S.preset==3){ for(let i=0;i<3;i++) if(matches(i)) {S.preset=i;break;} } render(); }
+
+// ---- row builders ----
+const esc=s=>s.replace(/"/g,'&quot;');
+function rowT(t){ const k=t[0], v=S[k];
+  if(t[7] && !S[t[7]]) return '';
+  const ex=t[6];
+  const ctl = t[3]=='t' ? `<input type=checkbox ${v?'checked':''} onchange="setVal('${k}',this.checked)">`
+    : t[3]=='d' ? `<select onchange="setVal('${k}',+this.value)">${ex.map((o,i)=>`<option value=${i} ${v==i?'selected':''}>${o}</option>`).join('')}</select>`
+    : `<input type=range min=${ex[0]} max=${ex[1]} step=${ex[2]} value=${v} oninput="setVal('${k}',+this.value)"><span class=val>${v}${ex[3]}</span>`;
+  return `<div class=row data-tip="${esc(t[2])}|${esc(t[5])}"><label>${t[2]}</label>${ctl}</div>`; }
+function rowPreset(){ return `<div class=row data-tip="Difficulty preset|${esc(PRESET_TIP)}"><label>Difficulty preset</label><select onchange="applyPreset(+this.value);render()">${PRESETS.map((p,i)=>`<option value=${i} ${S.preset==i?'selected':''}>${p}</option>`).join('')}</select></div>`; }
+function sec(id,title,inner,defClosed){ if(!(id in closed)) closed[id]=!!defClosed;
+  return `<div class="sec ${closed[id]?'closed':''}"><div class=hd onclick="closed['${id}']=!closed['${id}'];render()">${title}</div><div class=body>${inner}</div></div>`; }
+const grp=g=>T.filter(t=>t[1]==g).map(rowT).join('');
+const head = `<h1>Wayfinder</h1><div class=row data-tip="Enable Wayfinder|${esc(WAYFINDER_TIP)}"><label>Enable Wayfinder</label><input type=checkbox ${S.wayfinder?'checked':''} onchange="S.wayfinder=this.checked;render()"></div>`;
+
+const V = {
+ A:{h:'A. Preset on top, one section per group, all visible',
+    d:'Dropdown under Enable Wayfinder, then five <code>[ConfigSection]</code>s, 9 rows in all (10 with the chest odds dropdown). Every option is always visible. A hand edit flips the preset to Custom and shows a banner. Chest odds only shows when its toggle is on (<code>ConfigVisibleIf</code>).',
+    r:()=>head+`<div class="${S.wayfinder?'':'dim'}">`+sec('d','Difficulty',rowPreset()+(S.preset==3?'<div class=banner>Custom: options no longer match a preset. Pick a preset to reset them.</div>':''))+Object.keys(GROUPS).map(g=>sec(g,GROUPS[g],grp(g))).join('')+'</div>'},
+ C:{h:'C. Options appear only when the preset is Custom',
+    d:'Every option row carries <code>[ConfigVisibleIf(nameof(Preset), Custom)]</code>. Presets stay a clean 3-choice dropdown. To tune, pick Custom first; it keeps the last preset\'s settings. Costs: you can\'t see what a preset sets except from the hover tip, and tweaking a preset takes two steps.',
+    r:()=>head+`<div class="${S.wayfinder?'':'dim'}">`+sec('d','Difficulty',rowPreset())+(S.preset==3?Object.keys(GROUPS).map(g=>sec(g,GROUPS[g],grp(g))).join(''):'<div class=note>Pick Custom to edit the options.</div>')+'</div>'},
+};
+// C: choosing Custom must keep the previous numbers (applyPreset(3) already does, it only sets the label)
+
+function render(){
+  document.getElementById('screen').innerHTML = V[variant].r();
+  document.getElementById('vh').textContent = V[variant].h;
+  document.getElementById('vd').innerHTML = V[variant].d;
+  document.getElementById('dump').textContent = JSON.stringify({Enable:S.wayfinder,Preset:PRESETS[S.preset],...Object.fromEntries(T.map(t=>[t[0],S[t[0]]]))},null,1);
+  document.getElementById('bar').innerHTML = Object.keys(V).map(k=>`<button class="${k==variant?'on':''}" onclick="variant='${k}';render()">${k}</button>`).join('');
+  document.querySelectorAll('[data-tip]').forEach(e=>e.onmouseenter=()=>{const [a,b]=e.dataset.tip.split('|');document.getElementById('tip').innerHTML=`<b>${a}</b><br>${b}`});
+}
+render();
+</script>
