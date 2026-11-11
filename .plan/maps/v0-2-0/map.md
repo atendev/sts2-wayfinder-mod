@@ -41,10 +41,11 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 - [Find where combat, event, and chest gold is paid](./tickets/15-gold-rate-hooks.md) — every gold gain runs through `PlayerCmd.GainGold` and `Hook.ModifyGoldGained`, so one postfix there can apply the Gold rate; it stacks with the chest multiplier, shop prices don't scale, and the reward screen will show unscaled combat gold.
 - [Build the Gold rate](./tickets/16-build-gold-rate.md) — a postfix on `Hook.ModifyGoldGained` scales every gold gain by 75%, 100%, or 125%, rounded per call and gated on the Wayfinder line; the unscaled reward-screen display is still open for a playtest.
 
+- [Set the playtest run count, characters, and pass criteria](./tickets/17-playtest-plan.md) — one Ironclad Power curve run passes on Act 3 Elites and boss at 4+ turns and 15+ damage, 15 or fewer relics by the end of Act 1, under 100 max HP gained, a winnable run, and a gold display that doesn't read as a bug; tune and replay up to 3 misses, then ask.
+
 ## Not yet specified
 
-- The playtest-and-tune loop: how many runs, which characters, and when the numbers count as good enough for v0.2.0.
-- Per-fight payouts, such as the 87 to 147 max HP gained from Monster fights. Check whether enemy damage covers them or a playtest shows they still snowball.
+- Per-fight payouts, such as the 87 to 147 max HP gained from Monster fights. The playtest's max HP criterion tests whether enemy damage covers them; chart a ticket only if the run misses it.
 
 ## Out of scope
 
