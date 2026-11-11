@@ -59,11 +59,11 @@ internal static class TreasureChestState
 [HarmonyPatch(typeof(TreasureRoomRelicSynchronizer), nameof(TreasureRoomRelicSynchronizer.BeginRelicPicking))]
 internal static class TreasureChestOutcomePatch
 {
-    private static void Prefix(IPlayerCollection ___playerCollection, Rng ___rng)
+    private static void Prefix(IPlayerCollection ____playerCollection, Rng ____rng)
     {
         TreasureChestState.Clear();
 
-        var runState = ___playerCollection.Players.FirstOrDefault()?.RunState;
+        var runState = ____playerCollection.Players.FirstOrDefault()?.RunState;
         if (runState == null || !UnifiedActMap.IsLine(runState.Map) || runState.CurrentMapCoord is not { } coord)
             return;
 
@@ -72,11 +72,11 @@ internal static class TreasureChestOutcomePatch
             return;
 
         // Silver Crucible's emptied chest gets no roll, and its owner is the only player it skips.
-        if (!___playerCollection.Players.Any(player => Hook.ShouldGenerateTreasure(runState, player)))
+        if (!____playerCollection.Players.Any(player => Hook.ShouldGenerateTreasure(runState, player)))
             return;
 
         var isRelicChest = TreasureChestTable.IsRelicChest(odds, TreasureChestState.EarlierChests(runState),
-            TreasureChestState.IsLastChestOfAct(runState, coord), ___rng.NextFloat());
+            TreasureChestState.IsLastChestOfAct(runState, coord), ____rng.NextFloat());
         if (isRelicChest)
             return;
 
