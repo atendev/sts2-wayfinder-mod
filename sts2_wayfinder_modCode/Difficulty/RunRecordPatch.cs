@@ -3,7 +3,6 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Platform;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
-using MegaCrit.Sts2.Core.Saves.Managers;
 using sts2_wayfinder_mod.sts2_wayfinder_modCode.UnifiedPath;
 
 namespace sts2_wayfinder_mod.sts2_wayfinder_modCode.Difficulty;
@@ -24,8 +23,9 @@ internal static class RunRecordPatch
                 return;
             }
 
-            var folder = ProjectSettings.GlobalizePath(
-                System.IO.Path.Combine(RunHistorySaveManager.GetHistoryPath(SaveManager.Instance.CurrentProfileId), RunRecordSidecar.FolderName));
+            // GetProfileScopedPath gives a user:// path. The bare history path is relative, which would land in the game's install folder.
+            var folder = ProjectSettings.GlobalizePath(UserDataPathProvider.GetProfileScopedPath(
+                SaveManager.Instance.CurrentProfileId, System.IO.Path.Combine(UserDataPathProvider.SavesDir, "history", RunRecordSidecar.FolderName)));
             System.IO.Directory.CreateDirectory(folder);
             System.IO.File.WriteAllText(System.IO.Path.Combine(folder, RunRecordSidecar.FileName(run.StartTime)),
                 RunRecordSidecar.ToJson(DifficultySettings.For(runState)));

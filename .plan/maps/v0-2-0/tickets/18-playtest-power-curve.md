@@ -28,7 +28,7 @@ Act 3 Monster fights averaged 10.4 damage and 2.5 turns, against 1.3 to 1.9 dama
 In-game checks:
 
 - Settings screen: not tested. The config file saved all 10 values, and the log warns that every option's `hover.desc` key is missing from `settings_ui.json`, so no hover tips show.
-- Run record sidecar: failed. `history/wayfinder/` was never created, and the log has no warning, so `RunRecordPatch` either skipped silently or never applied. `RunRecordPatch` now logs when it skips; the next run's log settles it.
+- Run record sidecar: written, but to the wrong folder. `RunRecordPatch` built its path from a relative `GetHistoryPath`, so the file landed in the game's install folder under `modded/profile1/saves/history/wayfinder/` instead of the save folder. Run 1 (a win) and the abandoned test run both got one, so the write path and `IsLine` work at run end. The path now comes from `UserDataPathProvider.GetProfileScopedPath`.
 - Patch signatures: the mod loaded cleanly on later launches. The first launch threw in `TreasureRoomRelicSynchronizer.BeginRelicPicking`, which is the underscored-field fix already committed.
 
 Tuning change: end-of-Act-3 path HP 290% to 360%, to lift Act 3 turns from 3.5 toward 4. Damage is already well over target, so path damage stays. Run 2 is next.
