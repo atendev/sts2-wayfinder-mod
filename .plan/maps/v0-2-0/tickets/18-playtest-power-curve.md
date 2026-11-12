@@ -34,3 +34,10 @@ In-game checks:
 Tuning change: end-of-Act-3 path HP 290% to 360%, to lift Act 3 turns from 3.5 toward 4. Damage is already well over target, so path damage stays. Run 2 is next.
 
 Run 2 checks, before the run: the 360% build loaded cleanly on v0.107.1, and the settings screen works, with the preset dropdown and sections showing and a hand edit flipping the preset to Custom.
+
+Checks on the fixed build, from a short throwaway run with Gold rate set to Rich (recorded as Custom):
+
+- Gold display: passed. The reward screen amounts (25, 25, 23, 14, 19) matched the gold paid in the run file, so the `Populate` postfix and the hook skip work together with no double scaling.
+- Run record sidecar: passed. `history/wayfinder/1794493392.json` appeared in the save folder on abandon, with the preset Custom and Gold rate Rich.
+
+Still open: run 2 itself, for the Act 3 turns criterion.
