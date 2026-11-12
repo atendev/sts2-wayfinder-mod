@@ -19,7 +19,10 @@ internal static class RunRecordPatch
             // A run abandoned from the main menu has no run state to read the snapshot from, so it gets no record.
             var runState = RunManager.Instance.DebugOnlyGetState();
             if (runState == null || !UnifiedActMap.IsLine(runState.Map))
+            {
+                MainFile.Logger.Info($"No run difficulty record: run state is {(runState == null ? "missing" : "not a Wayfinder line map")}.");
                 return;
+            }
 
             var folder = ProjectSettings.GlobalizePath(
                 System.IO.Path.Combine(RunHistorySaveManager.GetHistoryPath(SaveManager.Instance.CurrentProfileId), RunRecordSidecar.FolderName));
