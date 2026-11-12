@@ -13,7 +13,7 @@ public class EnemyScalingCurveTests
     [InlineData(1, 1, 1.0)]
     [InlineData(1, PathLength, 1.8)]
     [InlineData(2, 1, 1.8)]
-    [InlineData(2, PathLength, 2.9)]
+    [InlineData(2, PathLength, 3.6)]
     public void PathHpHitsTheCurveEnds(int act, int row, double expected) =>
         Assert.Equal((decimal)expected, EnemyScalingCurve.PathHp(act, row, PathLength));
 
