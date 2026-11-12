@@ -32,3 +32,5 @@ In-game checks:
 - Patch signatures: the mod loaded cleanly on later launches. The first launch threw in `TreasureRoomRelicSynchronizer.BeginRelicPicking`, which is the underscored-field fix already committed.
 
 Tuning change: end-of-Act-3 path HP 290% to 360%, to lift Act 3 turns from 3.5 toward 4. Damage is already well over target, so path damage stays. Run 2 is next.
+
+Run 2 checks, before the run: the 360% build loaded cleanly on v0.107.1, and the settings screen works, with the preset dropdown and sections showing and a hand edit flipping the preset to Custom.
