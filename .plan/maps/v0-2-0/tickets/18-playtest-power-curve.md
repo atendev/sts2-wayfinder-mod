@@ -41,3 +41,19 @@ Checks on the fixed build, from a short throwaway run with Gold rate set to Rich
 - Run record sidecar: passed. `history/wayfinder/1794493392.json` appeared in the save folder on abandon, with the preset Custom and Gold rate Rich.
 
 Still open: run 2 itself, for the Act 3 turns criterion.
+
+## Handoff for the next session
+
+State: miss 1 of 3 is logged and run 2 has not been played. Everything else on the ticket is checked off, so the only thing left is run 2 and scoring it.
+
+Before run 2, the user sets the preset back to Power curve with Gold rate on Vanilla (the last throwaway run left it on Custom and Rich), then plays one Ironclad Ascension 0 run to the end on the current build (end-of-Act-3 path HP 360%).
+
+To score it:
+
+1. Find the newest `.run` in `~/.local/share/SlayTheSpire2/steam/<steamid>/modded/profile1/saves/history/`. Ignore the throwaway runs `1794493048` and `1794493392`. Skip the `.run.backup` files. Playtime is ignored because runs span sessions.
+2. Run `scripts/run_report.py` on it. Its sidecar is in `history/wayfinder/` beside it and should read Power curve.
+3. Check each criterion from [the playtest plan](./17-playtest-plan.md). Pull Act 3 Elite and boss turns and damage straight from `map_point_history`; the report only gives per-act averages. Pool the Elites and boss, as run 1 did.
+4. Pass: add `## Answer` here, add the Decisions bullet to `map.md`, and change the `docs/changelog.md` v0.2.0 heading from `(unreleased)` to final. Then make sure no ticket is left on the frontier.
+5. Miss: tune again (turns short means raise Act 3 path HP, overshoot means lower it) and log it as miss 2. After miss 3, stop and ask the user.
+
+Watch for in run 2: Act 3 boss was exactly at the 15 damage line in run 1, so a stronger boss kill could flip it. Check its damage as well as the pooled average.
