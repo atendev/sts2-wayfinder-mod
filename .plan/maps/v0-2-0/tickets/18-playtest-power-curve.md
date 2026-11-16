@@ -42,18 +42,36 @@ Checks on the fixed build, from a short throwaway run with Gold rate set to Rich
 
 Still open: run 2 itself, for the Act 3 turns criterion.
 
+## Run 2 (not scored)
+
+Run 1794493783 was played on Silent, which the playtest plan excludes (the baseline has Ironclad only). Act 3 Elites and boss averaged 2.3 turns and 4.7 damage. Not counted as a miss.
+
+## Run 3 (miss 2 of 3)
+
+Run 1794829802, Ironclad, Ascension 0, won, build v0.107.1 with end-of-Act-3 path HP at 360%. The sidecar reads Power curve, Balanced chests, 4 card choices, Vanilla gold.
+
+| Criterion | Result |
+| --- | --- |
+| Act 3 Elites and boss, 4+ turns and 15+ damage | Turns missed: 2.0 over the 6 fights (Elites 1, 1, 1, 3, 2; boss 4). Damage met: 22.7 (Elites 7, 13, 18, 24, 29; boss 45). |
+| 15 or fewer relics at the end of Act 1 | Missed: 18 (run 1 had 13). |
+| Under 100 max HP gained | Met: 36. |
+| Winnable | Met: lowest HP was 52 in Act 1 and the run won. |
+| Gold display not a bug | Met: passed in the earlier throwaway run. |
+
+The run ended with 63 relics and a 71-card deck, so Act 3 Elites died in 1 to 2 turns despite the 360% end value. Run 1 reached 3.5 turns at 290%, so turns vary more by run than by the curve.
+
+Tuning change: end-of-Act-3 path HP 360% to 500%, to lift Act 3 turns toward 4. Path damage stays, since damage is already over target. The Act 1 relic miss is left alone for now: it sits 5 above run 1's count, and the curve doesn't affect it. If run 4 misses it again, that points at Elite, Unknown, or shop relic sources.
+
 ## Handoff for the next session
 
-State: miss 1 of 3 is logged and run 2 has not been played. Everything else on the ticket is checked off, so the only thing left is run 2 and scoring it.
+State: miss 2 of 3 is logged and the 500% build is in the tree, uncommitted until the user confirms it loads. The next run is the last before the stop-and-ask rule.
 
-Before run 2, the user sets the preset back to Power curve with Gold rate on Vanilla (the last throwaway run left it on Custom and Rich), then plays one Ironclad Ascension 0 run to the end on the current build (end-of-Act-3 path HP 360%).
+Before the run, the user plays one Ironclad Ascension 0 run to the end on the 500% build, with the preset on Power curve and Gold rate on Vanilla.
 
 To score it:
 
-1. Find the newest `.run` in `~/.local/share/SlayTheSpire2/steam/<steamid>/modded/profile1/saves/history/`. Ignore the throwaway runs `1794493048` and `1794493392`. Skip the `.run.backup` files. Playtime is ignored because runs span sessions.
-2. Run `scripts/run_report.py` on it. Its sidecar is in `history/wayfinder/` beside it and should read Power curve.
-3. Check each criterion from [the playtest plan](./17-playtest-plan.md). Pull Act 3 Elite and boss turns and damage straight from `map_point_history`; the report only gives per-act averages. Pool the Elites and boss, as run 1 did.
-4. Pass: add `## Answer` here, add the Decisions bullet to `map.md`, and change the `docs/changelog.md` v0.2.0 heading from `(unreleased)` to final. Then make sure no ticket is left on the frontier.
-5. Miss: tune again (turns short means raise Act 3 path HP, overshoot means lower it) and log it as miss 2. After miss 3, stop and ask the user.
-
-Watch for in run 2: Act 3 boss was exactly at the 15 damage line in run 1, so a stronger boss kill could flip it. Check its damage as well as the pooled average.
+1. Find the newest `.run` in `~/.local/share/SlayTheSpire2/steam/<steamid>/modded/profile1/saves/history/`. Ignore throwaway runs `1794493048` and `1794493392`, and the Silent run `1794493783`. Skip `.run.backup` files.
+2. Run `scripts/run_report.py` on it and pull Act 3 Elite and boss turns and damage straight from `map_point_history`, pooled as in runs 1 and 3.
+3. Check each criterion from [the playtest plan](./17-playtest-plan.md), including Act 1 relics.
+4. Pass: add `## Answer`, add the Decisions bullet to `map.md`, and change the `docs/changelog.md` v0.2.0 heading from `(unreleased)` to final.
+5. Miss: log it as miss 3, then stop and ask the user.

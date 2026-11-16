@@ -6,7 +6,7 @@ internal static class EnemyScalingCurve
     private const decimal Vanilla = 1m;
 
     private const decimal PathHpEndAct2 = 1.8m;
-    private const decimal PathHpEndAct3 = 3.6m;
+    private const decimal PathHpEndAct3 = 5.0m;
     private const decimal PathDamageEndAct2 = 1.5m;
     private const decimal PathDamageEndAct3 = 2.6m;
 
