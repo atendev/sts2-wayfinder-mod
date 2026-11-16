@@ -64,7 +64,7 @@ Tuning change: end-of-Act-3 path HP 360% to 500%, to lift Act 3 turns toward 4. 
 
 ## Handoff for the next session
 
-State: miss 2 of 3 is logged and the 500% build is in the tree, uncommitted until the user confirms it loads. The next run is the last before the stop-and-ask rule.
+State: miss 2 of 3 is logged and the 500% build is committed. The next run is the last before the stop-and-ask rule.
 
 Before the run, the user plays one Ironclad Ascension 0 run to the end on the 500% build, with the preset on Power curve and Gold rate on Vanilla.
 
