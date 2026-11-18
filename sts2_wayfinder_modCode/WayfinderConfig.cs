@@ -14,6 +14,10 @@ internal class WayfinderConfig : SimpleModConfig
     [ConfigHoverTip]
     public static DifficultyPreset Preset { get; set; } = DifficultyPreset.PowerCurve;
 
+    [ConfigSection("MapPath")]
+    [ConfigHoverTip]
+    public static PathLength PathLength { get; set; } = DifficultyOptions.PowerCurve.PathLength;
+
     [ConfigSection("EnemyScaling")]
     [ConfigHoverTip]
     public static bool ScaleBosses { get; set; } = DifficultyOptions.PowerCurve.ScaleBosses;
@@ -59,7 +63,7 @@ internal class WayfinderConfig : SimpleModConfig
     }
 
     public static DifficultyOptions CurrentOptions() => new(ScaleBosses, ScalePathHp, ScalePathDamage,
-        AlternateCardRewards, CardChoices, UseChestChances, ChestOdds, LowerEliteRelicRarity, GoldRate);
+        AlternateCardRewards, CardChoices, UseChestChances, ChestOdds, LowerEliteRelicRarity, GoldRate, PathLength);
 
     private static void Apply(DifficultyOptions options)
     {
@@ -72,6 +76,7 @@ internal class WayfinderConfig : SimpleModConfig
         ChestOdds = options.ChestOdds;
         LowerEliteRelicRarity = options.LowerEliteRelicRarity;
         GoldRate = options.GoldRate;
+        PathLength = options.PathLength;
     }
 
     /// <summary>Picking a preset sets every option. Moving an option off what the preset sets lands the dropdown on Custom, or on the preset the options now match.</summary>

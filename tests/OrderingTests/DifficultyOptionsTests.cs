@@ -67,4 +67,29 @@ public class DifficultyOptionsTests
     [Fact]
     public void CardChoicesFromASnapshotStayInRange() =>
         Assert.Equal(5, DifficultyOptions.FromJson((DifficultyOptions.Off with { CardChoices = 9 }).ToJson()).CardChoices);
+
+    [Theory]
+    [InlineData((int)DifficultyPreset.Off)]
+    [InlineData((int)DifficultyPreset.BossesOnly)]
+    [InlineData((int)DifficultyPreset.PowerCurve)]
+    public void EveryPresetUsesTheActsPathLength(int preset) =>
+        Assert.Equal(PathLength.Acts, DifficultyOptions.For((DifficultyPreset)preset).PathLength);
+
+    [Fact]
+    public void ChangingThePathLengthMakesTheOptionsCustom() =>
+        Assert.Equal(DifficultyPreset.Custom, (DifficultyOptions.PowerCurve with { PathLength = PathLength.FullMap }).Preset);
+
+    [Fact]
+    public void ASnapshotWithoutAPathLengthKeepsTheFullMap()
+    {
+        const string v020Snapshot = """{"ScaleBosses":true,"ScalePathHp":true,"ScalePathDamage":true,"AlternateCardRewards":true,"CardChoices":4,"UseChestChances":true,"ChestOdds":"Balanced","LowerEliteRelicRarity":true,"GoldRate":"Vanilla"}""";
+        Assert.Equal(PathLength.FullMap, DifficultyOptions.FromJson(v020Snapshot).PathLength);
+    }
+
+    [Fact]
+    public void ThePathLengthRoundTripsThroughJson()
+    {
+        var options = DifficultyOptions.PowerCurve with { PathLength = PathLength.FullMap };
+        Assert.Equal(PathLength.FullMap, DifficultyOptions.FromJson(options.ToJson()).PathLength);
+    }
 }

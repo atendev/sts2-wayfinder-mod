@@ -21,6 +21,10 @@ internal static class DifficultySettings
     public static DifficultyOptions For(IRunState runState) =>
         Snapshots.TryGetValue(runState, out var snapshot) ? snapshot.Options : DifficultyOptions.Off;
 
+    /// <summary>The path length the run started with. A run with no snapshot keeps the full map it was generated with.</summary>
+    public static PathLength PathLengthFor(IRunState runState) =>
+        Snapshots.TryGetValue(runState, out var snapshot) ? snapshot.Options.PathLength : PathLength.FullMap;
+
     public static void Take(IRunState runState, DifficultyOptions options)
     {
         Snapshots.Remove(runState);

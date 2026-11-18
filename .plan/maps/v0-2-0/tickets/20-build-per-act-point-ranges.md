@@ -13,15 +13,21 @@ Build the per-act ranges from [Decide per-act point ranges](./19-per-act-point-r
 
 ## Handoff
 
-Branch `t3/per-act-point-ranges-path-length`. WIP commit holds the work so far (does not build: `HardRuleSearch.TryOrder` has no 4th arg yet). Audit round 0. Baseline: 90 tests pass in `tests/OrderingTests`. Curve drop (130/150 HP, 130/180 dmg) is already in `EnemyScalingCurve.cs`.
+Branch `t3/per-act-point-ranges-path-length-1` (branched from the first attempt's `7e072b8`). Last commit is the `wip:` commit holding the whole build. Audit round 0, no council yet. Scope: no Elite pick patch, no `PullNextEncounter`, no random normal picks; those belong to the sibling ticket "Build random encounter picks after each pool runs out" on `t3/random-encounter-picks`.
 
-Done: `Ordering/PlacementRules.cs` (NoEliteInFirstThird, EliteDistance, ElitePairs, PairClearance 4, GapCap), `Ordering/ActPlans.cs` (3 plans, `Roll`, `MaxFightPoints`, `ActPlans.For(actIndex)`), `PathOrderer.Order(mix, rng, placement)`, `SpreadPlacer` `PlaceElites`/`PlaceSpaced`/`PlaceGroups` (pairs as R E E blocks).
+Done and passing (118 tests in `tests/OrderingTests`, mod build clean):
+- `HardRuleSearch` takes `PlacementRules` (Act 1 distance 6 and first-third ban, Act 3 pairs with rest before, no third, clearance 4).
+- `UnifiedActMap.From(source, seed, act, pathLength)`: Acts rolls `ActPlans.For(act-1).Roll`, Full map keeps `MixOf`.
+- `DifficultyOptions.PathLength` (ctor default FullMap, Acts in all presets), `WayfinderConfig` section `MapPath`, `DifficultySettings.PathLengthFor`, localization keys, stale SCALE_PATH hover numbers fixed, sidecar records it through the JSON.
+- `ExtendEncounterListPatch`: weak x2, list sized to `ActPlan.MaxFightPoints` on Acts, doubled otherwise.
+- New `tests/OrderingTests/ActPlanTests.cs`, option and sidecar tests, README, mod description in `sts2_wayfinder_mod.json`, `CONTEXT.md` terms, `docs/changelog.md`.
 
 Left, in order:
-1. `HardRuleSearch`: take `PlacementRules`. Act 1: elite distance 6 under EliteGap (step 5), first-third elite ban under OpeningBan (step 6), `CannotFit` earliest/spacing. Act 3: adjacent Elite allowed under ElitesApart (step 7) only as a pair: rest directly before, no third. Pair clearance 4 either side under EliteGap. Extra state: since (cap GapCap), gapBefore, lastWasPair, eliteHadRestBefore; zero for Standard, key as record struct. Relax pruning when pairs allowed.
-2. `UnifiedActMap.From(source, seed, act, pathLength)`: Acts rolls `ActPlans.For(act-1).Roll(rng)` then orders; FullMap keeps `MixOf`, Standard rules, identical RNG use.
-3. `DifficultyOptions.PathLength` (Acts, FullMap; ctor default FullMap; Acts in all presets), `WayfinderConfig` section `MapPath`, localization keys (`PATH_LENGTH.*`, `MAP_PATH.title`), fix stale SCALE_PATH hover text (+30%/+50% HP, +30%/+80% dmg). `DifficultySettings.PathLengthFor` returns FullMap when no snapshot. `RewriteMapPatch` passes it.
-4. `ExtendEncounterListPatch`: Acts mode keeps weak x2, sizes regulars to `MaxFightPoints` minus weak, via `ldarg.0` + act index from `RunManager.Instance.DebugOnlyGetState().Acts`; fallback doubling. New `PullNextEncounter` postfix: Elites first pool-size visits in list order, then seeded random never repeating the last; normal overflow random regular. Pure `EncounterPicks` plus tests.
-5. Tests (new `ActPlanTests`, validators per act), README and mod description act identities, `docs/changelog.md`, CONTEXT.md terms, `dotnet test`, build check.
+1. Run `dotnet build sts2_wayfinder_mod.csproj` once; it rewrites the BaseLib `min_version` in `sts2_wayfinder_mod.json` to 3.4.8. Revert that line to 3.4.7 before committing.
+2. Council audit (`council-audit`) on the diff against `wayfinder/v0-2-0-master`, up to five rounds. Rounds used: 0.
+3. Decision report to `.plan/maps/v0-2-0/assets/20-build-per-act-point-ranges-report.md`, unslop it, commit with the work. Delete this Handoff section in the resolution commit.
+4. Push without force, open a PR against `wayfinder/v0-2-0-master`, link it, return PUSHED. Then CI result handling, timing close, resolution in the ticket file.
 
-Council: none yet. Read first: this ticket, ticket 19 Answer, `HardRuleSearch.cs`, `ActPlans.cs`.
+Known risks for the audit: `ScaleRoomCount` is not covered by a test (needs the game); hard-search pair state is tested through `ActPlanTests`; Off preset now uses Acts path length by decision.
+
+Read first: this ticket, `ActPlans.cs`, `HardRuleSearch.cs` (`EliteAllowed`, `NextElite`), `ExtendEncounterListPatch.cs`, `ActPlanTests.cs`.

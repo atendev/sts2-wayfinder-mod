@@ -2,6 +2,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Runs;
+using sts2_wayfinder_mod.sts2_wayfinder_modCode.Difficulty;
 
 namespace sts2_wayfinder_mod.sts2_wayfinder_modCode.UnifiedPath;
 
@@ -20,7 +21,8 @@ internal static class RewriteMapPatch
             return;
         }
 
-        map = UnifiedActMap.From(map, runState.Rng.StringSeed, runState.CurrentActIndex + 1);
+        map = UnifiedActMap.From(map, runState.Rng.StringSeed, runState.CurrentActIndex + 1,
+            DifficultySettings.PathLengthFor(runState));
     }
 
     private static bool IsWayfinderRun(IRunState runState)
