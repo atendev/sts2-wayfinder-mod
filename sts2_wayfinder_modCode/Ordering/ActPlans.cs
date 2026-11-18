@@ -46,7 +46,7 @@ internal sealed record ActPlan(
 /// <summary>The per-act ranges for Wayfinder's Acts path length. Names are for tuning and the mod description and never shown in game.</summary>
 internal static class ActPlans
 {
-    /// <summary>Act 1: fights and card rewards drive growth, Elites come later and spread out.</summary>
+    /// <summary>Act 1: fights and card rewards drive growth, Elites come later and spread out. The Underdocks take the same slot (act index 0), so they use this plan.</summary>
     public static readonly ActPlan BuildTheDeck = new("Build the deck",
         Length: new(34, 38), Elites: new(3, 4), Unknowns: new(3, 5), RestSites: new(5, 6), Shops: new(2, 2), Treasures: new(2, 2),
         Flavor: new PlacementRules(NoEliteInFirstThird: true, EliteDistance: 6));

@@ -78,7 +78,7 @@ public class ActPlanTests
 
     [Theory]
     [MemberData(nameof(Acts))]
-    public void MostPathsHoldEveryRuleAndNoneBreaksMoreThanTheLastStep(int act)
+    public void MostPathsHoldEveryRule(int act)
     {
         var clean = Runs(act).Count(r => r.Result.Step == 0);
         Assert.True(clean >= SeedsPerAct * 0.9, $"act {act}: {clean} of {SeedsPerAct} held every rule");
