@@ -62,13 +62,15 @@ The run ended with 63 relics and a 71-card deck, so Act 3 Elites died in 1 to 2 
 
 Tuning change: end-of-Act-3 path HP 360% to 500%, to lift Act 3 turns toward 4. Path damage stays, since damage is already over target. The Act 1 relic miss is left alone for now: it sits 5 above run 1's count, and the curve doesn't affect it. If run 4 misses it again, that points at Elite, Unknown, or shop relic sources.
 
+## HP rollback
+
+The user pulled end-of-Act-3 path HP back from 500% to 300% before run 4. Raising HP kept chasing player power (run 3 ended with 63 relics and a 71-card deck), so the next tuning step looks at other levers instead of more HP.
+
 ## Handoff for the next session
 
-State: miss 2 of 3 is logged and the 500% build is committed. The next run is the last before the stop-and-ask rule.
+State: miss 2 of 3 is logged, end-of-Act-3 path HP is back to 300%, and run 4 is on hold until the user picks which non-HP levers to try.
 
-Before the run, the user plays one Ironclad Ascension 0 run to the end on the 500% build, with the preset on Power curve and Gold rate on Vanilla.
-
-To score it:
+To score the next run:
 
 1. Find the newest `.run` in `~/.local/share/SlayTheSpire2/steam/<steamid>/modded/profile1/saves/history/`. Ignore throwaway runs `1794493048` and `1794493392`, and the Silent run `1794493783`. Skip `.run.backup` files.
 2. Run `scripts/run_report.py` on it and pull Act 3 Elite and boss turns and damage straight from `map_point_history`, pooled as in runs 1 and 3.
