@@ -8,7 +8,7 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 - Vocabulary lives in `CONTEXT.md`. This map added difficulty settings, tuning value, preset, enemy scaling, and reward rate. Don't call any of it "balance".
 - The problem, measured in [the v0.1 baseline](./assets/00-v0-1-baseline.md): a Wayfinder run has more relics by the end of Act 1 than a whole vanilla run, and Act 3 fights end in under 2 turns for under 3 damage. Elites, Unknowns, and Treasure are the big relic sources. Monster fights paid out 87 to 147 max HP through per-fight effects.
 - Settled while charting:
-  - Every point the vanilla map generated stays on the path. Points are never dropped or converted, for example an Elite into a Monster.
+  - ~~Every point the vanilla map generated stays on the path.~~ Reversed by [per-act point ranges](./tickets/19-per-act-point-ranges.md): each act rolls its own length and type counts. Points are still never converted from one type into another.
   - Difficulty settings are a separate settings group with presets and per-value tuning. They are read when a run starts and stay fixed for that run, like EnableWayfinder.
   - Presets: **Off** keeps vanilla numbers, the same as v0.1. **Bosses only** gives bosses enemy scaling and changes nothing else. **Power curve** lowers reward rates and raises enemy scaling through Acts 2 and 3, so Act 3 is the hardest stretch. Changing any tuning value by hand makes the run **Custom**.
   - Power curve is the default preset when Wayfinder is on.
@@ -43,12 +43,14 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 
 - [Set the playtest run count, characters, and pass criteria](./tickets/17-playtest-plan.md) — one Ironclad Power curve run passes on Act 3 Elites and boss at 4+ turns and 15+ damage, 15 or fewer relics by the end of Act 1, under 100 max HP gained, a winnable run, and a gold display that doesn't read as a bug; tune and replay up to 3 misses, then ask.
 
+- [Decide per-act point ranges and act identities](./tickets/19-per-act-point-ranges.md) — each act rolls its own length and type counts (about 96 points a run against 157), with Act 1 Build the deck, Act 2 The wilds, Act 3 The gauntlet; Elites fight each pool Elite once then pick at random, a Path length setting keeps Full map, and the path curve drops to 130%/150% HP and 130%/180% damage.
+
 ## Not yet specified
 
 - Per-fight payouts, such as the 87 to 147 max HP gained from Monster fights. The playtest's max HP criterion tests whether enemy damage covers them; chart a ticket only if the run misses it.
 
 ## Out of scope
 
-- Dropping points from the path or converting one point type into another. Every point the vanilla map generated stays, as it is.
+- Converting one point type into another, for example an Elite into a Monster.
 - Changing individual relics, cards, or events.
 - Tested co-op support.

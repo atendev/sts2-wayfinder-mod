@@ -1,6 +1,6 @@
 ---
 type: task
-blocked_by: [17]
+blocked_by: [17, 20, 21]
 undermined_by: []
 assets: [../assets/00-v0-1-baseline.md]
 ---
@@ -66,9 +66,11 @@ Tuning change: end-of-Act-3 path HP 360% to 500%, to lift Act 3 turns toward 4. 
 
 The user pulled end-of-Act-3 path HP back from 500% to 300% before run 4. Raising HP kept chasing player power (run 3 ended with 63 relics and a 71-card deck), so the next tuning step looks at other levers instead of more HP.
 
+[Per-act point ranges](./19-per-act-point-ranges.md) then shortened the path to about 96 points a run and dropped the path curve to 130% / 150% HP and 130% / 180% damage at the end of Act 2 / Act 3. Run 4 waits on [the ranges build](./20-build-per-act-point-ranges.md) and [the encounter picks build](./21-build-random-encounter-picks.md). Re-check the pass criteria against the shorter path before scoring it, since the Act 1 relic limit of 15 was set for a 58-point Act 1.
+
 ## Handoff for the next session
 
-State: miss 2 of 3 is logged, end-of-Act-3 path HP is back to 300%, and run 4 is on hold until the user picks which non-HP levers to try.
+State: miss 2 of 3 is logged. The curve is at 130% / 150% HP and 130% / 180% damage. Run 4 is blocked on tickets 20 and 21.
 
 To score the next run:
 
