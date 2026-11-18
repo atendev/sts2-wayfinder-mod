@@ -74,9 +74,10 @@ Some acts have a mix of points that can't meet every rule. When that happens, Wa
 
 ## Changes beyond the map
 
-An act with this many points would run through the game's encounter list and bring weak encounters back. Wayfinder runs change two things to account for the longer acts:
+An act with this many points would run through the game's encounter list and bring weak encounters back. Wayfinder runs change three things to account for the longer acts:
 
 - Each act draws twice as many weak encounters. On the Acts path length its normal encounter list is as long as the act's longest path can need. On the Full map it is twice the room count.
+- Once an act's encounter list runs out, fights stay random instead of replaying the list. Each Elite is a random pick that skips the one you just fought, and each late normal fight is a random regular encounter, never a weak one.
 - Relics limited to before the Act 3 chest stop appearing when Act 3 starts, instead of at a fixed floor.
 
 Wayfinder leaves combat stats, gold, and rewards alone.

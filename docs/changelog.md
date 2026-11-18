@@ -14,6 +14,7 @@
 - With the Acts path length, each act's normal encounter list is sized to that act's longest path instead of doubled. The weak encounter draw still doubles.
 - Lowered the path enemy scaling curve to +30% HP and +30% damage at the end of Act 2, and +50% HP and +80% damage at the end of Act 3, since the path is shorter. Bosses stay as they were. The hover tips for the two path scaling options now show these numbers.
 - The mod description now names each act's identity.
+- Wayfinder fights now stay random after the game's encounter lists run out. Each act's first Elites are every Elite in its pool once, in random order, then each Elite is a random pick that skips the one you just fought. Once an act's normal fights pass the game's list, each one is a random regular encounter that skips the previous one, so weak encounters don't return late in the act. Combats from Unknowns share the normal fight count. Each act's lists are drawn when its rooms are generated at run start and saved with the run, so a reload keeps the same fights. They hold 48 Elites and 96 normal fights per act, far more than an act reaches.
 
 ## v0.1.1
 
