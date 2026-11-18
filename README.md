@@ -15,7 +15,7 @@ A Slay the Spire 2 mod that turns each act's branching map into one long, reshuf
 
 Why speedrun Slay the Spire 2 when you could take your time, see the sights, and enjoy the mysteries and encounters of the spire?
 
-Wayfinder takes every point the game generated for an act and puts them all on one line, so you visit each combat, shop, chest, and rest site instead of picking a route past most of them. It doesn't join the existing paths end to end. It reshuffles the points and orders them with spacing rules, so you don't get two Elites back to back or five chests in a row.
+Wayfinder turns each act into one line, so you visit each combat, shop, chest, and rest site instead of picking a route past most of them. It doesn't join the existing paths end to end. It rolls each act's points from a plan and orders them with spacing rules, so you don't get two Elites back to back or five chests in a row.
 
 > [!WARNING]
 > v0.1.1 is still in development. The mod builds and its ordering tests pass, but it has not been extensively tested. Expect bugs.
@@ -26,12 +26,32 @@ Wayfinder takes every point the game generated for an act and puts them all on o
 - You never choose a direction. The next point is always the only one available.
 - The map screen draws paths of 26 or more points as a switchback, running back and forth from the Ancient at the bottom center to the boss at the top center. Shorter paths keep the game's single column.
 - The same seed always produces the same path.
+- With the Acts path length, the default, each act has its own length and mix of points. See [Act plans](#act-plans).
 - Golden Compass acts keep their 16-point golden path, which is already a straight line.
 
 <!-- Replace with side-by-side screenshots of the same act, vanilla and Wayfinder. -->
 | Vanilla | Wayfinder |
 | :---: | :---: |
 | ![Vanilla map without Wayfinder](/docs/assets/map_vanilla.png) | ![Modded map with wayfinder active](/docs/assets/map_wayfinder.png) |
+
+## Act plans
+
+With the Acts path length, the run seed rolls each act's length and its number of each point type from the ranges below. The game's own map only supplies the start point and the boss. Monsters fill what the length leaves.
+
+| | Act 1: Build the deck | Act 2: The wilds | Act 3: The gauntlet |
+| --- | --- | --- | --- |
+| Length | 34 to 38 | 32 to 36 | 26 to 30 |
+| Elites | 3 to 4 | 3 to 5 | 4 to 6 |
+| Unknowns | 3 to 5 | 8 to 12 | 2 to 4 |
+| Rest sites | 5 to 6 | 4 to 5 | 3 to 4 |
+| Shops | 2 | 3 | 1 |
+| Treasures | 2 | 1 to 2 | 1 |
+
+- **Act 1, Build the deck.** Fights and card rewards drive growth. Unknowns are rare, Elites come later and spread out, rest is generous, and two Shops let you trim the deck.
+- **Act 2, The wilds.** The most Unknowns, the most Shops, and the widest Elite swing. Unknowns can come in runs of 2 to 3.
+- **Act 3, The gauntlet.** The shortest and most Elite-dense act, with one Shop and one Treasure. Two Elites can sit side by side, never three.
+
+Set the **Path length** setting to **Full map** to keep every point the game generates, as in v0.1.
 
 ## How points are ordered
 
@@ -40,7 +60,7 @@ Wayfinder takes every point the game generated for an act and puts them all on o
 | First point after the start | A Monster |
 | Last point before the boss | A Rest site |
 | Points 1 to 5 | No Elites, Rest sites, or Treasure |
-| Elites | Spread across the act, with at least 2 other points between any two |
+| Elites | Spread across the act, with at least 2 other points between any two. In Act 1, none in the first third of the path and at least 5 points between any two. In Act 3, two Elites may sit side by side as a pair, with a Rest site right before it and no other Elite within 4 points on either side |
 | Rest sites | Spread across the act, never back to back, and none in the two points before the last one |
 | Shops | Spread across the act and never back to back |
 | Treasure | Placed at random from point 6 on, at most 3 in a row |
@@ -54,9 +74,10 @@ Some acts have a mix of points that can't meet every rule. When that happens, Wa
 
 ## Changes beyond the map
 
-An act with this many points would run through the game's encounter list and bring weak encounters back. Wayfinder runs change two things to account for the longer acts:
+An act with this many points would run through the game's encounter list and bring weak encounters back. Wayfinder runs change three things to account for the longer acts:
 
-- Each act draws twice as many weak encounters, and its normal encounter list is twice the room count.
+- Each act draws twice as many weak encounters. On the Acts path length its normal encounter list is as long as the act's longest path can need. On the Full map it is twice the room count.
+- Once an act's encounter list runs out, fights stay random instead of replaying the list. Each Elite is a random pick that skips the one you just fought, and each late normal fight is a random regular encounter, never a weak one.
 - Relics limited to before the Act 3 chest stop appearing when Act 3 starts, instead of at a fixed floor.
 
 Wayfinder leaves combat stats, gold, and rewards alone.
@@ -92,6 +113,8 @@ Default Steam locations for the `mods` folder:
 ## Settings
 
 Wayfinder is on by default. To turn it off, use the Enable Wayfinder toggle in the mod's settings.
+
+The Path length setting picks Acts (the default) or Full map. Every difficulty preset uses Acts.
 
 The toggle takes effect when you start a new run. A run in progress stays as it is, whether it has unified paths or not.
 

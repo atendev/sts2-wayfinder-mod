@@ -44,6 +44,8 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 - [Set the playtest run count, characters, and pass criteria](./tickets/17-playtest-plan.md) — one Ironclad Power curve run passes on Act 3 Elites and boss at 4+ turns and 15+ damage, 15 or fewer relics by the end of Act 1, under 100 max HP gained, a winnable run, and a gold display that doesn't read as a bug; tune and replay up to 3 misses, then ask.
 
 - [Decide per-act point ranges and act identities](./tickets/19-per-act-point-ranges.md) — each act rolls its own length and type counts (about 96 points a run against 157), with Act 1 Build the deck, Act 2 The wilds, Act 3 The gauntlet; Elites fight each pool Elite once then pick at random, a Path length setting keeps Full map, and the path curve drops to 130%/150% HP and 130%/180% damage.
+- [Build per-act point ranges and the Path length setting](./tickets/20-build-per-act-point-ranges.md) — each act rolls its length and type counts from `ActPlans` and the run seed with per-act Elite placement (Act 1 none in the first third and spaced out, Act 3 pairs); the Path length setting (Acts, Full map) is Acts in every preset, snapshotted and in the sidecar, and the normal list is sized to the act; `ScaleRoomCount` is untested in game.
+- [Build random encounter picks after each pool runs out](./tickets/21-build-random-encounter-picks.md) — a `GenerateRooms` postfix rewrites each act's saved Elite and normal lists with the generation rng: Elites are a seeded shuffle of the pool then random picks skipping the last, normal fights are vanilla's list then random regular encounters, so picks survive a reload; untested in game.
 
 ## Not yet specified
 

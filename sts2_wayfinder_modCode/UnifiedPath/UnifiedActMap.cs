@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.Map;
+using sts2_wayfinder_mod.sts2_wayfinder_modCode.Difficulty;
 using sts2_wayfinder_mod.sts2_wayfinder_modCode.Ordering;
 
 namespace sts2_wayfinder_mod.sts2_wayfinder_modCode.UnifiedPath;
@@ -39,11 +40,21 @@ internal sealed class UnifiedActMap : ActMap
         BossMapPoint.AddChildPoint(SecondBossMapPoint);
     }
 
-    public static UnifiedActMap From(ActMap source, string seed, int actNumber)
+    /// <param name="pathLength">Acts rolls the act's length and counts from its plan and ignores the source's mix. Full map uses every point the source generated.</param>
+    public static UnifiedActMap From(ActMap source, string seed, int actNumber, PathLength pathLength)
     {
-        var result = PathOrderer.Order(MixOf(source), new SeededOrderingRng(seed, $"act_{actNumber}_wayfinder"));
-        MainFile.Logger.Info($"Act {actNumber}: unified path of {result.Path.Count} points, break step {result.Step}");
+        var rng = new SeededOrderingRng(seed, $"act_{actNumber}_wayfinder");
+        var result = pathLength == PathLength.Acts
+            ? OrderPlanned(actNumber, rng)
+            : PathOrderer.Order(MixOf(source), rng);
+        MainFile.Logger.Info($"Act {actNumber}: {pathLength} path of {result.Path.Count} points, break step {result.Step}");
         return new UnifiedActMap(source, result.Path);
+    }
+
+    private static OrderingResult OrderPlanned(int actNumber, IOrderingRng rng)
+    {
+        var layout = ActPlans.For(actNumber - 1).Roll(rng);
+        return PathOrderer.Order(layout.Mix, rng, layout.Rules);
     }
 
     /// <summary>True for a map with one point per row, all in the center column, and no start points.</summary>

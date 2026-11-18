@@ -18,6 +18,7 @@ public class RunRecordSidecarTests
         Assert.Equal(4, root.GetProperty("CardChoices").GetInt32());
         Assert.True(root.GetProperty("ScaleBosses").GetBoolean());
         Assert.Equal("Balanced", root.GetProperty("ChestOdds").GetString());
+        Assert.Equal("Acts", root.GetProperty("PathLength").GetString());
     }
 
     [Fact]
