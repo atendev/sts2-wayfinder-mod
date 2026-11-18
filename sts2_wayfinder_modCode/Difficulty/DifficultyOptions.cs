@@ -26,6 +26,13 @@ internal enum GoldRate
     Rich,
 }
 
+/// <summary>How long each act's path is. Acts rolls each act's length and counts from its plan. FullMap keeps every point the game generated, as v0.1 did.</summary>
+internal enum PathLength
+{
+    Acts,
+    FullMap,
+}
+
 /// <summary>Every player-facing difficulty option, as snapshotted when a run starts.</summary>
 internal sealed record DifficultyOptions(
     bool ScaleBosses,
@@ -36,18 +43,19 @@ internal sealed record DifficultyOptions(
     bool UseChestChances,
     ChestOdds ChestOdds,
     bool LowerEliteRelicRarity,
-    GoldRate GoldRate)
+    GoldRate GoldRate,
+    PathLength PathLength = PathLength.FullMap)
 {
     public const int MinCardChoices = 3;
     public const int MaxCardChoices = 5;
 
     public static readonly DifficultyOptions Off =
-        new(false, false, false, false, 3, false, ChestOdds.Balanced, false, GoldRate.Vanilla);
+        new(false, false, false, false, 3, false, ChestOdds.Balanced, false, GoldRate.Vanilla, PathLength.Acts);
 
     public static readonly DifficultyOptions BossesOnly = Off with { ScaleBosses = true };
 
     public static readonly DifficultyOptions PowerCurve =
-        new(true, true, true, true, 4, true, ChestOdds.Balanced, true, GoldRate.Vanilla);
+        new(true, true, true, true, 4, true, ChestOdds.Balanced, true, GoldRate.Vanilla, PathLength.Acts);
 
     private static readonly JsonSerializerOptions Json = new() { Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() } };
 

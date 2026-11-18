@@ -17,8 +17,20 @@ An easier encounter the game places at the front of an act's encounter list, so 
 _Avoid_: Easy encounter, easy pool
 
 **Unified path**:
-The strict line that replaces an act's branching map, holding every point the vanilla map generated. It always starts at the act's start point and ends at its boss, and the player never chooses a direction.
+The strict line that replaces an act's branching map. On the Acts path length it holds the points the act's plan rolled, and on the Full map it holds every point the vanilla map generated. It always starts at the act's start point and ends at its boss, and the player never chooses a direction.
 _Avoid_: Route, snake, combined path
+
+**Act plan**:
+One act's count range for every point type and its length, from which the run seed rolls that act's mix. Monsters fill what the length leaves. The vanilla map supplies only the start point and the boss. Each plan has an identity (Build the deck, The wilds, The gauntlet) used for tuning and the mod description, never shown in game.
+_Avoid_: Act template, act preset
+
+**Path length**:
+The difficulty setting that picks how an act's points are chosen. Acts rolls each act's mix from its act plan. Full map keeps every point the vanilla map generated, as v0.1 did.
+_Avoid_: Map size, act length (alone)
+
+**Elite pair**:
+Two Elites side by side, allowed only in Act 3. A rest site comes right before the pair, no third Elite joins it, and no other Elite sits within 4 points on either side.
+_Avoid_: Double elite, elite chain
 
 **Start point**:
 The first point of an act. It is the act's Ancient, except in Act 1 of a run that did not start with Neow, where it is a combat.

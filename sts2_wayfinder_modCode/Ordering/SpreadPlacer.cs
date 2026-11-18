@@ -10,7 +10,7 @@ internal static class SpreadPlacer
     private const int JitterRange = 300;
     private const int MaxRunOfOneType = 3;
 
-    public static PointType[]? TryPlace(PointMix mix, IOrderingRng rng, int? fightCap)
+    public static PointType[]? TryPlace(PointMix mix, IOrderingRng rng, int? fightCap, PlacementRules rules)
     {
         var n = mix.Total;
         if (mix.Monsters == 0 || mix.RestSites == 0 || n < MinPoints)
@@ -22,8 +22,8 @@ internal static class SpreadPlacer
             slots[0] = PointType.Monster;
             slots[n - 1] = PointType.RestSite;
 
-            if (!Spread(slots, PointType.Elite, 6, n - 1, mix.Elites, rng)
-                || !Spread(slots, PointType.RestSite, 6, n - 3, mix.RestSites - 1, rng)
+            if (!PlaceElites(slots, mix, rules, rng, out var pairRests)
+                || !Spread(slots, PointType.RestSite, 6, n - 3, mix.RestSites - 1 - pairRests, rng)
                 || !Spread(slots, PointType.Shop, 2, n - 1, mix.Shops, rng)
                 || !PlaceTreasure(slots, mix.Treasures, rng))
                 continue;
@@ -34,6 +34,94 @@ internal static class SpreadPlacer
         }
 
         return null;
+    }
+
+    private static bool PlaceElites(PointType?[] slots, PointMix mix, PlacementRules rules, IOrderingRng rng, out int pairRests)
+    {
+        pairRests = 0;
+        var n = slots.Length;
+        if (rules.PairsAllowed)
+        {
+            pairRests = Math.Min(rules.ElitePairs, mix.Elites / 2);
+            return PlaceGroups(slots, mix.Elites, pairRests, rng);
+        }
+
+        if (rules == PlacementRules.Standard)
+            return Spread(slots, PointType.Elite, 6, n - 1, mix.Elites, rng);
+
+        return PlaceSpaced(slots, PointType.Elite, Math.Max(6, rules.FirstEliteAfterThird(n)), n - 1, mix.Elites, rules.EliteDistance, rng);
+    }
+
+    /// <summary>Places Elites at least <paramref name="distance"/> positions apart, spread evenly with jitter, in 1-based positions <paramref name="low"/> to <paramref name="high"/>.</summary>
+    private static bool PlaceSpaced(PointType?[] slots, PointType type, int low, int high, int count, int distance, IOrderingRng rng)
+    {
+        if (count == 0)
+            return true;
+
+        var slack = high - low + 1 - ((count - 1) * distance + 1);
+        if (slack < 0)
+            return false;
+
+        for (var i = 0; i < count; i++)
+        {
+            var from = slack * i / count;
+            var to = slack * (i + 1) / count;
+            var position = low + i * distance + from + rng.NextInt(to - from + 1);
+            if (slots[position - 1] != null)
+                return false;
+
+            slots[position - 1] = type;
+        }
+
+        return true;
+    }
+
+    /// <summary>Places Elite pairs, each with a rest site right before it, and single Elites. Any two groups keep a clearance of points between their Elites, wider around a pair.</summary>
+    private static bool PlaceGroups(PointType?[] slots, int elites, int pairs, IOrderingRng rng)
+    {
+        var n = slots.Length;
+        var groups = new bool[pairs + (elites - 2 * pairs)];
+        for (var i = 0; i < pairs; i++)
+            groups[i] = true;
+        RandomOrder.Shuffle(groups, rng);
+
+        var first = new int[groups.Length];
+        var next = 0;
+        for (var g = 0; g < groups.Length; g++)
+        {
+            var low = groups[g] ? OpeningEnd + 2 : OpeningEnd + 1;
+            if (g > 0)
+                low = Math.Max(low, next);
+
+            first[g] = low;
+            var last = low + (groups[g] ? 1 : 0);
+            var clearance = g + 1 < groups.Length && (groups[g] || groups[g + 1]) ? PlacementRules.PairClearance : 2;
+            next = last + clearance + 1;
+        }
+
+        var lastElite = first[^1] + (groups[^1] ? 1 : 0);
+        var slack = n - 1 - lastElite;
+        if (slack < 0)
+            return false;
+
+        for (var g = 0; g < groups.Length; g++)
+        {
+            var from = slack * g / groups.Length;
+            var to = slack * (g + 1) / groups.Length;
+            var position = first[g] + from + rng.NextInt(to - from + 1);
+            if (groups[g])
+            {
+                slots[position - 2] = PointType.RestSite;
+                slots[position - 1] = PointType.Elite;
+                slots[position] = PointType.Elite;
+            }
+            else
+            {
+                slots[position - 1] = PointType.Elite;
+            }
+        }
+
+        return true;
     }
 
     private static bool Spread(PointType?[] slots, PointType type, int low, int high, int count, IOrderingRng rng)

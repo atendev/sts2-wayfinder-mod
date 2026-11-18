@@ -16,16 +16,17 @@ internal static class PathOrderer
         OrderingRule.RestBeforeLast,
     ];
 
-    public static OrderingResult Order(PointMix mix, IOrderingRng rng)
+    public static OrderingResult Order(PointMix mix, IOrderingRng rng, PlacementRules? placement = null)
     {
-        var spread = SpreadPlacer.TryPlace(mix, rng, MaxFightRun) ?? SpreadPlacer.TryPlace(mix, rng, null);
+        placement ??= PlacementRules.Standard;
+        var spread = SpreadPlacer.TryPlace(mix, rng, MaxFightRun, placement) ?? SpreadPlacer.TryPlace(mix, rng, null, placement);
         if (spread != null)
             return new OrderingResult(spread, 0, []);
 
         for (var step = 1; step <= LastStep; step++)
         {
             var rules = HardRules.AtStep(step);
-            var path = HardRuleSearch.TryOrder(mix, rules, rng);
+            var path = HardRuleSearch.TryOrder(mix, rules, rng, placement);
             if (path == null)
                 continue;
 
@@ -35,7 +36,7 @@ internal static class PathOrderer
                     continue;
 
                 var trial = rules.With(rule);
-                var restored = HardRuleSearch.TryOrder(mix, trial, rng);
+                var restored = HardRuleSearch.TryOrder(mix, trial, rng, placement);
                 if (restored == null)
                     continue;
 
