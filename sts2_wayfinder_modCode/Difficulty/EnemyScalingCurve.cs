@@ -5,10 +5,10 @@ internal static class EnemyScalingCurve
 {
     private const decimal Vanilla = 1m;
 
-    private const decimal PathHpEndAct2 = 1.8m;
-    private const decimal PathHpEndAct3 = 3.0m;
-    private const decimal PathDamageEndAct2 = 1.5m;
-    private const decimal PathDamageEndAct3 = 2.6m;
+    private const decimal PathHpEndAct2 = 1.3m;
+    private const decimal PathHpEndAct3 = 1.5m;
+    private const decimal PathDamageEndAct2 = 1.3m;
+    private const decimal PathDamageEndAct3 = 1.8m;
 
     private static readonly decimal[] BossHp = [Vanilla, 1.3m, 1.5m];
     private static readonly decimal[] BossDamage = [Vanilla, 1.15m, 1.25m];

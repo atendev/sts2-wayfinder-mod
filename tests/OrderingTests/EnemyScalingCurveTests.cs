@@ -11,17 +11,17 @@ public class EnemyScalingCurveTests
     [InlineData(0, 1, 1.0)]
     [InlineData(0, PathLength, 1.0)]
     [InlineData(1, 1, 1.0)]
-    [InlineData(1, PathLength, 1.8)]
-    [InlineData(2, 1, 1.8)]
-    [InlineData(2, PathLength, 3.0)]
+    [InlineData(1, PathLength, 1.3)]
+    [InlineData(2, 1, 1.3)]
+    [InlineData(2, PathLength, 1.5)]
     public void PathHpHitsTheCurveEnds(int act, int row, double expected) =>
         Assert.Equal((decimal)expected, EnemyScalingCurve.PathHp(act, row, PathLength));
 
     [Theory]
     [InlineData(1, 1, 1.0)]
-    [InlineData(1, PathLength, 1.5)]
-    [InlineData(2, 1, 1.5)]
-    [InlineData(2, PathLength, 2.6)]
+    [InlineData(1, PathLength, 1.3)]
+    [InlineData(2, 1, 1.3)]
+    [InlineData(2, PathLength, 1.8)]
     public void PathDamageHitsTheCurveEnds(int act, int row, double expected) =>
         Assert.Equal((decimal)expected, EnemyScalingCurve.PathDamage(act, row, PathLength));
 
@@ -44,5 +44,5 @@ public class EnemyScalingCurveTests
 
     [Fact]
     public void ShortPathStillReachesTheEndValue() =>
-        Assert.Equal(1.8m, EnemyScalingCurve.PathHp(1, 1, 1));
+        Assert.Equal(1.3m, EnemyScalingCurve.PathHp(1, 1, 1));
 }
