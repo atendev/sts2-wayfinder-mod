@@ -160,7 +160,7 @@ import json, sys
 path, version, notes = sys.argv[1:4]
 with open(path, encoding="utf-8") as f:
     workshop = json.load(f)
-workshop["changeNote"] = f"{version}\n\n{notes}"
+workshop["changeNote"] = f"{version}\n\n{notes.strip()}"
 with open(path, "w", encoding="utf-8") as f:
     json.dump(workshop, f, indent=4, ensure_ascii=False)
 PY
