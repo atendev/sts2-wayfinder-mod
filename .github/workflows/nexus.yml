@@ -1,4 +1,5 @@
-# Sends a published GitHub release's zip to Nexus Mods as a new version of the existing file.
+# Sends a published GitHub release's zip to Nexus Mods as a new version of the existing file,
+# then updates the mod page's summary and description from docs/nexus-summary.txt and docs/nexus-description.bbcode.
 # Needs the NEXUSMODS_API_KEY secret and the NEXUSMODS_FILE_ID and NEXUSMODS_MOD_ID variables.
 # Without them the job logs a notice and does nothing.
 name: Publish to Nexus Mods
@@ -26,6 +27,13 @@ jobs:
       - name: Check Nexus settings
         if: env.HAS_NEXUS != 'true'
         run: echo "::notice::NEXUSMODS_API_KEY, NEXUSMODS_FILE_ID, or NEXUSMODS_MOD_ID is not set. Skipping the Nexus upload."
+
+      - name: Check out the description files
+        if: env.HAS_NEXUS == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: docs
+          persist-credentials: false
 
       - name: Download the release zip and notes
         if: env.HAS_NEXUS == 'true'
@@ -57,3 +65,15 @@ jobs:
           display_name: Wayfinder ${{ env.TAG }}
           changelog: ${{ steps.notes.outputs.body }}
           update_mod_version: 'true'
+
+      - name: Update the mod page summary and description
+        if: env.HAS_NEXUS == 'true'
+        env:
+          NEXUSMODS_API_KEY: ${{ secrets.NEXUSMODS_API_KEY }}
+          MOD_ID: ${{ vars.NEXUSMODS_MOD_ID }}
+        run: |
+          jq -n --rawfile summary docs/nexus-summary.txt --rawfile description docs/nexus-description.bbcode \
+            '{summary: ($summary | rtrimstr("\n")), description: $description}' > payload.json
+          curl --fail-with-body -sS -X PATCH "https://api.nexusmods.com/v3/mods/$MOD_ID" \
+            -H "apikey: $NEXUSMODS_API_KEY" -H 'Content-Type: application/json' -d @payload.json
+          echo "Updated the mod page summary and description."

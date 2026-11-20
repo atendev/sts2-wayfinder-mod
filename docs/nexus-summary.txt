@@ -1,0 +1,1 @@
+Turns each act's branching map into one long path with no choices. Each act gets its own length and mix of points, and a difficulty preset makes enemies stronger and rewards leaner to match. Settings cover enemy scaling, card rewards, chests, Elite relics, and gold.

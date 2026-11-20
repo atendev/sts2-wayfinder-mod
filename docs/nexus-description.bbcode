@@ -1,0 +1,56 @@
+[size=6][b]Wayfinder[/b][/size]
+Why speedrun Slay the Spire 2 when you could take your time, see the sights, and enjoy the mysteries and encounters of the spire?
+
+Wayfinder gives each act one line. You visit every combat, shop, chest, and rest site, instead of picking a route past most of them. Each act is built from a plan, so Act 1 helps you build your deck, Act 2 is the wilds with the most Unknowns and shops, and Act 3 is the gauntlet, the shortest act with the most Elites. A run is about 96 points instead of 157. Spacing rules keep two Elites from coming back to back and five chests from coming in a row.
+
+[b]Still in development.[/b] The mod builds, its tests pass, and v0.2.0 was played through, but it has not had wide testing. Expect bugs, and please report them on GitHub.
+
+[size=5][b]What it does[/b][/size]
+[list]
+[*]Each act is one path. It still starts at the act's start point, usually the Ancient, and ends at the boss.
+[*]You never choose a direction. The next point is always the only one.
+[*]Paths of 26 or more points are drawn as a switchback, running back and forth from the Ancient at the bottom to the boss at the top.
+[*]The same seed always makes the same path.
+[*]Golden Compass acts keep their 16-point golden path, which is already a straight line.
+[/list]
+
+[size=5][b]Difficulty[/b][/size]
+A shorter path gives you fewer fights and rewards, so Wayfinder also makes runs harder. A preset dropdown sets how much. [b]Off[/b] keeps vanilla numbers. [b]Bosses only[/b] makes only bosses stronger. [b]Power curve[/b], the default, makes enemies stronger through Acts 2 and 3 and rewards smaller. If you change any option, the preset becomes [b]Custom[/b].
+[list]
+[*]Enemy scaling: bosses, and Monster, Elite, and Unknown fights, get more HP and damage along Acts 2 and 3. Scaled damage shows in the enemy's intent.
+[*]Card rewards: every second normal combat can skip its card reward, and a reward can offer 4 cards.
+[*]Treasure chests: each chest is either a relic chest or a gold chest.
+[*]Lower Elite relic rarity: an Elite's relic is more likely to be Common.
+[*]Gold rate: Lean, Vanilla, or Rich.
+[*]Path length: Acts, or Full map to keep every point the game makes.
+[/list]
+A run keeps the settings it started with.
+
+[size=5][b]Encounters[/b][/size]
+Fights stay random after the game's encounter lists run out. Each act shows every Elite in its pool once before any repeat. The same Elite or normal fight never comes twice in a row, and weak encounters don't return late in an act.
+
+[size=5][b]Requirements[/b][/size]
+[list]
+[*]Slay the Spire 2 version 0.107.0 or later, on the normal or public-beta branch.
+[*][url=https://github.com/Alchyr/BaseLib-StS2]BaseLib[/url] 3.4.7 or later.
+[/list]
+
+[size=5][b]Install[/b][/size]
+[list=1]
+[*]Create a [b]mods[/b] folder in the game's install folder if it isn't there.
+[*]Unpack BaseLib into [b]mods[/b].
+[*]Unpack the Wayfinder zip into [b]mods[/b], so you have [b]mods/sts2_wayfinder_mod/[/b] with the .dll, .json, and .pck inside.
+[*]Launch the game and choose to play modded.
+[/list]
+
+[size=5][b]Settings[/b][/size]
+Wayfinder is on by default. Turn it off with the Enable Wayfinder toggle in the mod's settings. Settings take effect when you start a new run, and a run in progress keeps the settings it started with.
+
+[size=5][b]Compatibility[/b][/size]
+[list]
+[*]Made for single-player. Co-op is untested, and the mod doesn't block it.
+[*]Other mods that change the map are untested with Wayfinder.
+[/list]
+
+[size=5][b]Links[/b][/size]
+[url=https://github.com/atendev/sts2-wayfinder-mod]Source, screenshots, and bug reports on GitHub[/url]
