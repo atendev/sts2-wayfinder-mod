@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 # Builds the mod and publishes it, either as a GitHub release or to the Steam Workshop.
 # The build needs the game's sts2.dll and MegaDot, so this runs locally, not in CI.
+# Two channels ship side by side. A manifest version like v1.2.3 is the stable channel, released from main to the
+# dist/workshop item. A version like v1.2.3-beta.1 is the beta channel for the game's public-beta branch, released from
+# the beta branch to the dist/workshop-beta item as a GitHub prerelease.
 # Usage: scripts/release.sh [--mode github|workshop] [--dry-run] [--yes]
 #   --mode     github (default): zip, tag the manifest version, and publish a GitHub release
-#              workshop: refresh dist/workshop/content and upload it with dist/mod-uploader/ModUploader
-#                        (workshop.json, image.png, and previews in dist/workshop are edited by hand)
+#              workshop: refresh the channel's workshop content and upload it with dist/mod-uploader/ModUploader
+#                        (workshop.json, image.png, and previews in the workspace are edited by hand)
 #   --dry-run  build and package only; no tag, push, release, or upload
 #   --yes      skip the confirmation prompt
 set -euo pipefail
@@ -36,20 +39,25 @@ for tool in "${TOOLS[@]}"; do
     command -v "$tool" >/dev/null || die "$tool is not installed"
 done
 
+VERSION=$(python3 -I -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8-sig"))["version"])' "$MOD.json")
+if [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+$ ]]; then
+    CHANNEL=beta BRANCH=beta WORKSPACE="$ROOT/dist/workshop-beta"
+elif [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    CHANNEL=stable BRANCH=main WORKSPACE="$ROOT/dist/workshop"
+else
+    die "manifest version '$VERSION' is not like v1.2.3 or v1.2.3-beta.1"
+fi
+
 UPLOADER_DIR="$ROOT/dist/mod-uploader"
-WORKSPACE="$ROOT/dist/workshop"
 if [[ "$MODE" == "workshop" && $DRY_RUN -eq 0 ]]; then
     [[ -x "$UPLOADER_DIR/ModUploader" ]] || die "$UPLOADER_DIR/ModUploader not found or not executable"
 fi
 
-VERSION=$(python3 -I -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8-sig"))["version"])' "$MOD.json")
-[[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([-.][0-9A-Za-z.]+)?$ ]] || die "manifest version '$VERSION' is not like v1.2.3"
-
 if [[ $DRY_RUN -eq 0 ]]; then
-    [[ "$(git branch --show-current)" == "main" ]] || die "release from main"
+    [[ "$(git branch --show-current)" == "$BRANCH" ]] || die "release $CHANNEL versions from $BRANCH"
     [[ -z "$(git status --porcelain)" ]] || die "working tree is not clean"
-    git fetch --quiet origin main --tags
-    [[ "$(git rev-parse HEAD)" == "$(git rev-parse origin/main)" ]] || die "main is not in sync with origin/main"
+    git fetch --quiet origin "$BRANCH" --tags
+    [[ "$(git rev-parse HEAD)" == "$(git rev-parse "origin/$BRANCH")" ]] || die "$BRANCH is not in sync with origin/$BRANCH"
     if [[ "$MODE" == "github" ]]; then
         git rev-parse -q --verify "refs/tags/$VERSION" >/dev/null && die "tag $VERSION already exists"
         gh auth status >/dev/null 2>&1 || die "gh is not logged in"
@@ -63,7 +71,7 @@ NOTES=$(awk -v h="## $VERSION" '
 ' docs/changelog.md | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}')
 [[ -n "$NOTES" ]] || die "docs/changelog.md has no '## $VERSION' section"
 
-echo "Releasing $VERSION ($MODE)"
+echo "Releasing $VERSION ($CHANNEL, $MODE)"
 echo "$NOTES"
 echo
 
@@ -115,7 +123,7 @@ PY
     git tag -a "$VERSION" -m "$VERSION"
     git push origin "$VERSION"
     PRERELEASE=()
-    [[ "$VERSION" == *-* ]] && PRERELEASE=(--prerelease)
+    [[ "$CHANNEL" == "beta" ]] && PRERELEASE=(--prerelease --latest=false)
     gh release create "$VERSION" "$ZIP" --title "$VERSION" --notes "$NOTES" --verify-tag "${PRERELEASE[@]}"
     echo "Released $VERSION"
     exit 0
