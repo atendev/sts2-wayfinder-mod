@@ -70,6 +70,22 @@ The user pulled end-of-Act-3 path HP back from 500% to 300% before run 4. Raisin
 
 [Per-act point ranges](./19-per-act-point-ranges.md) then shortened the path to about 96 points a run and dropped the path curve to 130% / 150% HP and 130% / 180% damage at the end of Act 2 / Act 3. Run 4 waits on [the ranges build](./20-build-per-act-point-ranges.md) and [the encounter picks build](./21-build-random-encounter-picks.md). Re-check the pass criteria against the shorter path before scoring it, since the Act 1 relic limit of 15 was set for a 58-point Act 1.
 
+## Runs 4 and 5 (shorter path, scored 2026-11-20)
+
+Two Ironclad Power curve runs landed on the shorter path, both Ascension 0, both wins, both on v0.111.1 with the same sidecar settings (Balanced chests, 4 card choices, Vanilla gold, Path length Acts). The installed DLL was built 2026-11-18 10:57, before the 13:13 working-tree curve edit, so both ran on the committed curve: 130% / 150% HP and 130% / 180% damage. Act 3 turns and damage are pooled over Elites and the boss.
+
+| Criterion | Run 4 (1795021557, 2026-11-18) | Run 5 (1795070129, 2026-11-20) |
+| --- | --- | --- |
+| Act 3 Elites and boss, 4+ turns and 15+ damage | Met: 6.2 turns, 35.0 damage over 5 fights (Elites 5.8 t / 37.2 dmg, boss 8 t / 26 dmg) | Met: 5.3 turns, 38.6 damage over 7 fights (Elites 5.2 t / 36.7 dmg, boss 6 t / 50 dmg) |
+| 10 or fewer relics at the end of Act 1 | Met: 7 | Met: 7 |
+| Under 60 max HP gained | Met: 55 | Missed: 69 (37 from Monster fights) |
+| Winnable | Met: lowest HP 37 in Act 1, won | Met: lowest HP 10 at an Act 2 Elite, won |
+| Gold display not a bug | Met earlier | Met earlier |
+
+Run 4 passes every criterion. Run 5 misses only max HP, by 9, and 37 of its 69 came from Monster fights, the per-fight payout the map left unspecified. Act 1 relics are fixed: 7 in both runs against 18 in run 3. Final relics were 41 and 31, against 63 in run 3.
+
+Not resolved: whether run 4 is the pass or run 5 counts as miss 3. Ticket 17 passes on one run meeting every criterion, but the handoff rule below scores the newest run. The 13:13 curve edit (path damage 120% / 150%, boss damage 110% / 120%) came after run 4 and is not built into the installed DLL.
+
 ## Handoff for the next session
 
 State: miss 2 of 3 is logged. The curve is at 130% / 150% HP and 130% / 180% damage. Run 4 is blocked on tickets 20 and 21.
@@ -81,3 +97,7 @@ To score the next run:
 3. Check each criterion from [the playtest plan](./17-playtest-plan.md), including Act 1 relics.
 4. Pass: add `## Answer`, add the Decisions bullet to `map.md`, and change the `docs/changelog.md` v0.2.0 heading from `(unreleased)` to final.
 5. Miss: log it as miss 3, then stop and ask the user.
+
+## Answer
+
+Power curve passes. Run 4 met every criterion on the shorter path, and run 5 missed only max HP (69 against under 60), but the user played both and found them very balanced, so the miss is accepted and the count stops at 2 of 3. The committed curve (130% / 150% HP, 130% / 180% damage) ships as played. Max HP from Monster fights stays unspecified in the map, since the playtest felt right. The post-run-4 curve edit (path damage 120% / 150%, boss damage 110% / 120%) was not part of either run, so it stays out of the pass.
