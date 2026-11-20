@@ -11,10 +11,12 @@ packages/
 .editorconfig
 *.user
 Directory.Build.props
-references/
+references/*
+!references/.gdignore
 *.uid
 *.import
 .vscode/
 .agent-state.md
-dist/
+dist/*
+!dist/.gdignore
 __pycache__/
