@@ -180,6 +180,8 @@ Wayfinder has two release channels. Stable versions (`vX.Y.Z`) are released from
 3. Merge to `main`, or to `beta` for a beta version.
 4. Run `scripts/release.sh` from that branch, then `scripts/release.sh --mode workshop`.
 
+The build compiles against your installed game, so switch Steam to the matching game branch first: the default branch for a stable version, `public-beta` for a beta version. The script checks this.
+
 The script runs the tests, builds the `.pck`, zips the mod, tags the version, and publishes a GitHub release with the changelog section as notes. A beta version is published as a prerelease, uploads to its own Workshop item from `dist/workshop-beta`, and goes to its own Nexus file. Use `--dry-run` to build the zip without tagging. The build needs the game's files, so it runs on your machine, not in CI.
 
 ## License

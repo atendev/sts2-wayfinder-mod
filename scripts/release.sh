@@ -84,6 +84,18 @@ if [[ $DRY_RUN -eq 0 && $ASSUME_YES -eq 0 ]]; then
     [[ "$reply" =~ ^[Yy]$ ]] || die "aborted"
 fi
 
+# The build compiles against the installed game, so the installed Steam branch has to match the channel.
+STS2_PATH=$(dotnet msbuild "$MOD.csproj" -getProperty:Sts2Path)
+ACF="$STS2_PATH/../../appmanifest_2868840.acf"
+if [[ -f "$ACF" ]]; then
+    INSTALLED_BRANCH=$(awk '/"MountedConfig"/ { on = 1 } on && /"BetaKey"/ { gsub(/"/, "", $2); print $2; exit }' "$ACF")
+    [[ "$CHANNEL" == "beta" ]] && WANT_BRANCH=public-beta || WANT_BRANCH=
+    [[ "$INSTALLED_BRANCH" == "$WANT_BRANCH" ]] \
+        || die "the game is installed from branch '${INSTALLED_BRANCH:-default}', but $CHANNEL builds need '${WANT_BRANCH:-default}'. Switch branches in Steam first."
+else
+    echo "warning: $ACF not found, so the installed game branch can't be checked" >&2
+fi
+
 echo "== Tests"
 dotnet test tests/OrderingTests
 
