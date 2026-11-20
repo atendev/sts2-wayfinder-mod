@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.0-beta.1
+
+- The first build for the game's `public-beta` branch, version 0.113.1. It has the same features as v0.2.0 and won't load on the normal branch. Use v0.2.0 there.
+- Updated Wayfinder's game hooks for 0.113.1, which renamed or reshaped several game methods the mod changes. Without this the mod failed to load on the beta.
+- The switchback map follows the beta's new map screen layout.
+
 ## v0.2.0
 
 - Wayfinder runs now scale enemies. Monster, Elite, and Unknown fights get more HP and damage along Acts 2 and 3, and bosses get a fixed boost per act. Act 1 stays vanilla. Scaled attack damage shows in the enemy's intent.
