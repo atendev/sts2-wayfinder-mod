@@ -86,7 +86,7 @@ You need Slay the Spire 2 version 0.107.0 or later and [BaseLib](https://github.
 
 1. Create a `mods` folder in the game's install folder if it isn't there.
 2. Download BaseLib and unpack it into `mods`.
-3. Download the latest zip from the [releases page](https://github.com/atendev/sts2-wayfinder-mod/releases) and unpack it into `mods`. You can also [build it from source](#build-from-source).
+3. Download the latest zip from the [releases page](https://github.com/atendev/sts2-wayfinder-mod/releases) and unpack it into `mods`. On the `public-beta` game branch, take the newest prerelease whose version ends in `-beta.N` instead. You can also [build it from source](#build-from-source).
 4. Launch the game and choose to play modded.
 
 The finished folder looks like this:
@@ -139,7 +139,7 @@ When a run ends, Wayfinder saves the settings it used to `history/wayfinder/<sta
 
 ## Compatibility
 
-- It works on both the normal version of the game and the `public-beta` version.
+- Wayfinder ships in two builds. The stable build runs on the normal game branch. The beta build runs on the `public-beta` branch and won't load on the normal one. Use the build that matches your game branch.
 - Wayfinder is made for single-player. Co-op is untested, and the mod doesn't block it.
 - Other mods that change the map are untested with Wayfinder.
 
@@ -173,12 +173,14 @@ dotnet test tests/OrderingTests
 
 ## Releasing
 
-1. Change `version` in `sts2_wayfinder_mod.json`.
-2. Add a matching `## vX.Y.Z` section to `docs/changelog.md`.
-3. Merge to `main`.
-4. Run `scripts/release.sh`.
+Wayfinder has two release channels. Stable versions (`vX.Y.Z`) are released from `main` for the normal game branch. Beta versions (`vX.Y.Z-beta.N`) are released from the `beta` branch for the game's `public-beta` branch, with `min_game_version` set to that beta's game version. Merge `main` into `beta` to carry shared changes over.
 
-The script runs the tests, builds the `.pck`, zips the mod, tags the version, and publishes a GitHub release with the changelog section as notes. Use `--dry-run` to build the zip without tagging. The build needs the game's files, so it runs on your machine, not in CI.
+1. Change `version` in `sts2_wayfinder_mod.json`.
+2. Add a matching `## vX.Y.Z` or `## vX.Y.Z-beta.N` section to `docs/changelog.md`.
+3. Merge to `main`, or to `beta` for a beta version.
+4. Run `scripts/release.sh` from that branch, then `scripts/release.sh --mode workshop`.
+
+The script runs the tests, builds the `.pck`, zips the mod, tags the version, and publishes a GitHub release with the changelog section as notes. A beta version is published as a prerelease, uploads to its own Workshop item from `dist/workshop-beta`, and goes to its own Nexus file. Use `--dry-run` to build the zip without tagging. The build needs the game's files, so it runs on your machine, not in CI.
 
 ## License
 

@@ -1,6 +1,8 @@
-# Sends a published GitHub release's zip to Nexus Mods as a new version of the existing file,
-# then updates the mod page's summary and description from docs/nexus-summary.txt and docs/nexus-description.bbcode.
-# Needs the NEXUSMODS_API_KEY secret and the NEXUSMODS_FILE_ID and NEXUSMODS_MOD_ID variables.
+# Sends a published GitHub release's zip to Nexus Mods as a new version of an existing file.
+# A stable tag (v1.2.3) goes to NEXUSMODS_FILE_ID, sets the mod's version, and updates the mod page's summary and
+# description from docs/nexus-summary.txt and docs/nexus-description.bbcode.
+# A beta tag (v1.2.3-beta.1) goes to NEXUSMODS_BETA_FILE_ID and leaves the mod's version and page alone.
+# Needs the NEXUSMODS_API_KEY secret, the NEXUSMODS_MOD_ID variable, and the channel's file ID variable.
 # Without them the job logs a notice and does nothing.
 name: Publish to Nexus Mods
 
@@ -22,11 +24,25 @@ jobs:
     env:
       TAG: ${{ github.event.release.tag_name || inputs.tag }}
       GH_TOKEN: ${{ github.token }}
-      HAS_NEXUS: ${{ secrets.NEXUSMODS_API_KEY != '' && vars.NEXUSMODS_FILE_ID != '' && vars.NEXUSMODS_MOD_ID != '' }}
+      HAS_KEY: ${{ secrets.NEXUSMODS_API_KEY != '' && vars.NEXUSMODS_MOD_ID != '' }}
+      STABLE_FILE_ID: ${{ vars.NEXUSMODS_FILE_ID }}
+      BETA_FILE_ID: ${{ vars.NEXUSMODS_BETA_FILE_ID }}
     steps:
-      - name: Check Nexus settings
-        if: env.HAS_NEXUS != 'true'
-        run: echo "::notice::NEXUSMODS_API_KEY, NEXUSMODS_FILE_ID, or NEXUSMODS_MOD_ID is not set. Skipping the Nexus upload."
+      - name: Pick the channel
+        run: |
+          if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+$ ]]; then
+            CHANNEL=beta FILE_ID=$BETA_FILE_ID FILE_VAR=NEXUSMODS_BETA_FILE_ID
+          else
+            CHANNEL=stable FILE_ID=$STABLE_FILE_ID FILE_VAR=NEXUSMODS_FILE_ID
+          fi
+          echo "CHANNEL=$CHANNEL" >> "$GITHUB_ENV"
+          echo "FILE_ID=$FILE_ID" >> "$GITHUB_ENV"
+          if [[ "$HAS_KEY" == "true" && -n "$FILE_ID" ]]; then
+            echo "HAS_NEXUS=true" >> "$GITHUB_ENV"
+          else
+            echo "HAS_NEXUS=false" >> "$GITHUB_ENV"
+            echo "::notice::NEXUSMODS_API_KEY, NEXUSMODS_MOD_ID, or $FILE_VAR is not set. Skipping the Nexus upload."
+          fi
 
       - name: Check out the description files
         if: env.HAS_NEXUS == 'true'
@@ -58,16 +74,17 @@ jobs:
         uses: Nexus-Mods/upload-action@98532f7670c27cbecc78fae03fa3e278147827e2 # v1.0.0-beta.11
         with:
           api_key: ${{ secrets.NEXUSMODS_API_KEY }}
-          file_id: ${{ vars.NEXUSMODS_FILE_ID }}
+          file_id: ${{ env.FILE_ID }}
           mod_id: ${{ vars.NEXUSMODS_MOD_ID }}
           filename: ${{ env.ZIP }}
           version: ${{ env.TAG }}
-          display_name: Wayfinder ${{ env.TAG }}
+          display_name: ${{ env.CHANNEL == 'beta' && format('Wayfinder {0} (public-beta game branch)', env.TAG) || format('Wayfinder {0}', env.TAG) }}
+          category: ${{ env.CHANNEL == 'beta' && 'optional' || 'main' }}
           changelog: ${{ steps.notes.outputs.body }}
-          update_mod_version: 'true'
+          update_mod_version: ${{ env.CHANNEL == 'stable' }}
 
       - name: Update the mod page summary and description
-        if: env.HAS_NEXUS == 'true'
+        if: env.HAS_NEXUS == 'true' && env.CHANNEL == 'stable'
         env:
           NEXUSMODS_API_KEY: ${{ secrets.NEXUSMODS_API_KEY }}
           MOD_ID: ${{ vars.NEXUSMODS_MOD_ID }}
