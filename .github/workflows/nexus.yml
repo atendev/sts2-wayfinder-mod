@@ -2,6 +2,7 @@
 # A stable tag (v1.2.3) goes to NEXUSMODS_FILE_ID, sets the mod's version, and updates the mod page's summary and
 # description from docs/nexus-summary.txt and docs/nexus-description.bbcode.
 # A beta tag (v1.2.3-beta.1) goes to NEXUSMODS_BETA_FILE_ID and leaves the mod's version and page alone.
+# Run it by hand with page_only to push only the page text.
 # Needs the NEXUSMODS_API_KEY secret, the NEXUSMODS_MOD_ID variable, and the channel's file ID variable.
 # Without them the job logs a notice and does nothing.
 name: Publish to Nexus Mods
@@ -14,6 +15,10 @@ on:
       tag:
         description: Release tag to upload, such as v0.2.0
         required: true
+      page_only:
+        description: Only update the mod page summary and description, without uploading a file
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -23,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      PAGE_ONLY: ${{ inputs.page_only == true }}
       GH_TOKEN: ${{ github.token }}
       HAS_KEY: ${{ secrets.NEXUSMODS_API_KEY != '' && vars.NEXUSMODS_MOD_ID != '' }}
       STABLE_FILE_ID: ${{ vars.NEXUSMODS_FILE_ID }}
@@ -52,7 +58,7 @@ jobs:
           persist-credentials: false
 
       - name: Download the release zip and notes
-        if: env.HAS_NEXUS == 'true'
+        if: env.HAS_NEXUS == 'true' && env.PAGE_ONLY != 'true'
         run: |
           gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.zip' --dir .
           gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json body -q .body > notes.md
@@ -60,7 +66,7 @@ jobs:
           echo "ZIP=$(ls *.zip | head -n 1)" >> "$GITHUB_ENV"
 
       - name: Read the notes
-        if: env.HAS_NEXUS == 'true'
+        if: env.HAS_NEXUS == 'true' && env.PAGE_ONLY != 'true'
         id: notes
         run: |
           {
@@ -70,7 +76,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Upload to Nexus Mods
-        if: env.HAS_NEXUS == 'true'
+        if: env.HAS_NEXUS == 'true' && env.PAGE_ONLY != 'true'
         uses: Nexus-Mods/upload-action@98532f7670c27cbecc78fae03fa3e278147827e2 # v1.0.0-beta.11
         with:
           api_key: ${{ secrets.NEXUSMODS_API_KEY }}
