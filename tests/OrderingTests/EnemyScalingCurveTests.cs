@@ -19,9 +19,9 @@ public class EnemyScalingCurveTests
 
     [Theory]
     [InlineData(1, 1, 1.0)]
-    [InlineData(1, PathLength, 1.3)]
-    [InlineData(2, 1, 1.3)]
-    [InlineData(2, PathLength, 1.8)]
+    [InlineData(1, PathLength, 1.2)]
+    [InlineData(2, 1, 1.2)]
+    [InlineData(2, PathLength, 1.5)]
     public void PathDamageHitsTheCurveEnds(int act, int row, double expected) =>
         Assert.Equal((decimal)expected, EnemyScalingCurve.PathDamage(act, row, PathLength));
 
@@ -39,7 +39,7 @@ public class EnemyScalingCurveTests
     public void BossesUseOneValuePerAct()
     {
         Assert.Equal([1m, 1.3m, 1.5m], new[] { 0, 1, 2 }.Select(EnemyScalingCurve.BossHpFor));
-        Assert.Equal([1m, 1.15m, 1.25m], new[] { 0, 1, 2 }.Select(EnemyScalingCurve.BossDamageFor));
+        Assert.Equal([1m, 1.1m, 1.2m], new[] { 0, 1, 2 }.Select(EnemyScalingCurve.BossDamageFor));
     }
 
     [Fact]

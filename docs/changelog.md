@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.2.0 (unreleased)
+## v0.2.0
 
 - Wayfinder runs now scale enemies. Monster, Elite, and Unknown fights get more HP and damage along Acts 2 and 3, and bosses get a fixed boost per act. Act 1 stays vanilla. Scaled attack damage shows in the enemy's intent.
 - Wayfinder treasure chests now roll between a relic chest and a gold chest. A gold chest gives no relic and twice the gold. The relic chance starts at 20% each act, rises 20% per gold chest, resets after a relic chest, and the act's last chest is always a relic chest.
@@ -12,7 +12,7 @@
 - Added a Path length setting: Acts, the default in every preset, or Full map. With Acts, the run seed rolls each act's length and number of each point type from its own ranges, and the vanilla map only supplies the start point and the boss. Act 1 (Build the deck) is 34 to 38 points, Act 2 (The wilds) 32 to 36, and Act 3 (The gauntlet) 26 to 30, about 96 points a run against 157. Full map keeps every generated point, as in v0.1. The setting is saved with the run and written to the difficulty record.
 - Each act now places its Elites in its own way. Act 1 has no Elite in the first third and at least 5 points between Elites. Act 2 allows Unknown runs of 2 to 3. Act 3 allows an Elite pair with a rest site right before it, never three in a row, and no other Elite within 4 points either side.
 - With the Acts path length, each act's normal encounter list is sized to that act's longest path instead of doubled. The weak encounter draw still doubles.
-- Lowered the path enemy scaling curve to +30% HP and +30% damage at the end of Act 2, and +50% HP and +80% damage at the end of Act 3, since the path is shorter. Bosses stay as they were. The hover tips for the two path scaling options now show these numbers.
+- Lowered the path enemy scaling curve to +30% HP and +20% damage at the end of Act 2, and +50% HP and +50% damage at the end of Act 3, since the path is shorter and playtest Act 3 fights, Knights especially, hit too hard. Boss damage is a little lower, +10% in Act 2 and +20% in Act 3, and boss HP stays as it was. The hover tips for the two path scaling options now show these numbers.
 - The mod description now names each act's identity.
 - Wayfinder fights now stay random after the game's encounter lists run out. Each act's first Elites are every Elite in its pool once, in random order, then each Elite is a random pick that skips the one you just fought. Once an act's normal fights pass the game's list, each one is a random regular encounter that skips the previous one, so weak encounters don't return late in the act. Combats from Unknowns share the normal fight count. Each act's lists are drawn when its rooms are generated at run start and saved with the run, so a reload keeps the same fights. They hold 48 Elites and 96 normal fights per act, far more than an act reaches.
 

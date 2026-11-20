@@ -7,11 +7,11 @@ internal static class EnemyScalingCurve
 
     private const decimal PathHpEndAct2 = 1.3m;
     private const decimal PathHpEndAct3 = 1.5m;
-    private const decimal PathDamageEndAct2 = 1.3m;
-    private const decimal PathDamageEndAct3 = 1.8m;
+    private const decimal PathDamageEndAct2 = 1.2m;
+    private const decimal PathDamageEndAct3 = 1.5m;
 
     private static readonly decimal[] BossHp = [Vanilla, 1.3m, 1.5m];
-    private static readonly decimal[] BossDamage = [Vanilla, 1.15m, 1.25m];
+    private static readonly decimal[] BossDamage = [Vanilla, 1.1m, 1.2m];
 
     /// <param name="row">The point's row on the unified path, 1 for the first point.</param>
     /// <param name="pathLength">The number of points between the start and the boss.</param>
