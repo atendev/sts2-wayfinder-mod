@@ -1,0 +1,59 @@
+# Sends a published GitHub release's zip to Nexus Mods as a new version of the existing file.
+# Needs the NEXUSMODS_API_KEY secret and the NEXUSMODS_FILE_ID and NEXUSMODS_MOD_ID variables.
+# Without them the job logs a notice and does nothing.
+name: Publish to Nexus Mods
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to upload, such as v0.2.0
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  nexus:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      GH_TOKEN: ${{ github.token }}
+      HAS_NEXUS: ${{ secrets.NEXUSMODS_API_KEY != '' && vars.NEXUSMODS_FILE_ID != '' && vars.NEXUSMODS_MOD_ID != '' }}
+    steps:
+      - name: Check Nexus settings
+        if: env.HAS_NEXUS != 'true'
+        run: echo "::notice::NEXUSMODS_API_KEY, NEXUSMODS_FILE_ID, or NEXUSMODS_MOD_ID is not set. Skipping the Nexus upload."
+
+      - name: Download the release zip and notes
+        if: env.HAS_NEXUS == 'true'
+        run: |
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.zip' --dir .
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json body -q .body > notes.md
+          ls -l *.zip
+          echo "ZIP=$(ls *.zip | head -n 1)" >> "$GITHUB_ENV"
+
+      - name: Read the notes
+        if: env.HAS_NEXUS == 'true'
+        id: notes
+        run: |
+          {
+            echo 'body<<NOTES_EOF'
+            cat notes.md
+            echo 'NOTES_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload to Nexus Mods
+        if: env.HAS_NEXUS == 'true'
+        uses: Nexus-Mods/upload-action@98532f7670c27cbecc78fae03fa3e278147827e2 # v1.0.0-beta.11
+        with:
+          api_key: ${{ secrets.NEXUSMODS_API_KEY }}
+          file_id: ${{ vars.NEXUSMODS_FILE_ID }}
+          mod_id: ${{ vars.NEXUSMODS_MOD_ID }}
+          filename: ${{ env.ZIP }}
+          version: ${{ env.TAG }}
+          display_name: Wayfinder ${{ env.TAG }}
+          changelog: ${{ steps.notes.outputs.body }}
+          update_mod_version: 'true'
