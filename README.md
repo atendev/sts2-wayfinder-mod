@@ -2,7 +2,7 @@
 
 # Wayfinder
 
-A Slay the Spire 2 mod that turns each act's branching map into one long, reshuffled path.
+A Slay the Spire 2 mod that turns each act's branching map into one long path with no choices.
 
 ![Version](https://img.shields.io/badge/version-v0.2.0-blue)
 ![Status](https://img.shields.io/badge/status-in%20development-orange)
@@ -15,18 +15,18 @@ A Slay the Spire 2 mod that turns each act's branching map into one long, reshuf
 
 Why speedrun Slay the Spire 2 when you could take your time, see the sights, and enjoy the mysteries and encounters of the spire?
 
-Wayfinder turns each act into one line, so you visit each combat, shop, chest, and rest site instead of picking a route past most of them. It doesn't join the existing paths end to end. It rolls each act's points from a plan and orders them with spacing rules, so you don't get two Elites back to back or five chests in a row.
+Wayfinder gives each act one line. You visit every combat, shop, chest, and rest site, instead of picking a route past most of them. The mod builds each act from a plan and places the points with spacing rules, so you never get two Elites back to back or five chests in a row.
 
 > [!WARNING]
-> v0.2.0 is still in development. The mod builds and its ordering tests pass, but it has not been extensively tested. Expect bugs.
+> v0.2.0 is still in development. The mod builds, its tests pass, and v0.2.0 was played through, but it has not had wide testing. Expect bugs.
 
 ## What it does
 
-- Each act gets its own unified path. Acts still start at their start point, usually the Ancient, and end at their boss.
-- You never choose a direction. The next point is always the only one available.
-- The map screen draws paths of 26 or more points as a switchback, running back and forth from the Ancient at the bottom center to the boss at the top center. Shorter paths keep the game's single column.
-- The same seed always produces the same path.
-- With the Acts path length, the default, each act has its own length and mix of points. See [Act plans](#act-plans).
+- Each act is one path. It still starts at the act's start point, usually the Ancient, and ends at the boss.
+- You never choose a direction. The next point is always the only one.
+- Paths of 26 or more points are drawn as a switchback. It runs back and forth from the Ancient at the bottom center to the boss at the top center. Shorter paths stay in the game's single column.
+- The same seed always makes the same path.
+- By default, each act has its own length and mix of points. See [Act plans](#act-plans).
 - Golden Compass acts keep their 16-point golden path, which is already a straight line.
 
 <!-- Replace with side-by-side screenshots of the same act, vanilla and Wayfinder. -->
@@ -36,7 +36,7 @@ Wayfinder turns each act into one line, so you visit each combat, shop, chest, a
 
 ## Act plans
 
-With the Acts path length, the run seed rolls each act's length and its number of each point type from the ranges below. The game's own map only supplies the start point and the boss. Monsters fill what the length leaves.
+By default, the run seed picks each act's length and how many points of each type it has, within the ranges below. The game's own map only gives the start point and the boss. Monsters fill whatever room is left.
 
 | | Act 1: Build the deck | Act 2: The wilds | Act 3: The gauntlet |
 | --- | --- | --- | --- |
@@ -47,11 +47,11 @@ With the Acts path length, the run seed rolls each act's length and its number o
 | Shops | 2 | 3 | 1 |
 | Treasures | 2 | 1 to 2 | 1 |
 
-- **Act 1, Build the deck.** Fights and card rewards drive growth. Unknowns are rare, Elites come later and spread out, rest is generous, and two Shops let you trim the deck.
-- **Act 2, The wilds.** The most Unknowns, the most Shops, and the widest Elite swing. Unknowns can come in runs of 2 to 3.
-- **Act 3, The gauntlet.** The shortest and most Elite-dense act, with one Shop and one Treasure. Two Elites can sit side by side, never three.
+- **Act 1, Build the deck.** Fights and card rewards help you grow. Unknowns are rare, Elites come later and are spaced out, and there are plenty of rest sites. Two shops let you trim your deck.
+- **Act 2, The wilds.** It has the most Unknowns and the most shops, and the number of Elites varies the most. Unknowns can come 2 to 3 in a row.
+- **Act 3, The gauntlet.** It is the shortest act and has the most Elites for its size. It has one shop and one treasure. Two Elites can sit side by side, but never three.
 
-Set the **Path length** setting to **Full map** to keep every point the game generates, as in v0.1.
+A run is about 96 points, against 157 for the full map. To keep every point the game makes, set **Path length** to **Full map**, as in v0.1.
 
 ## How points are ordered
 
@@ -60,35 +60,33 @@ Set the **Path length** setting to **Full map** to keep every point the game gen
 | First point after the start | A Monster |
 | Last point before the boss | A Rest site |
 | Points 1 to 5 | No Elites, Rest sites, or Treasure |
-| Elites | Spread across the act, with at least 2 other points between any two. In Act 1, none in the first third of the path and at least 5 points between any two. In Act 3, two Elites may sit side by side as a pair, with a Rest site right before it and no other Elite within 4 points on either side |
-| Rest sites | Spread across the act, never back to back, and none in the two points before the last one |
-| Shops | Spread across the act and never back to back |
+| Elites | Spread across the act, with at least 2 other points between any two. In Act 1, none in the first third of the path, and at least 5 points between any two. In Act 3, two Elites can sit side by side as a pair. A Rest site comes right before the pair, and no other Elite is within 4 points on either side |
+| Rest sites | Spread across the act, never back to back, and none in the 2 points before the last one |
+| Shops | Spread across the act, never back to back |
 | Treasure | Placed at random from point 6 on, at most 3 in a row |
 | Monsters and Unknowns | At most 3 of each in a row |
 | Monsters and Elites together | At most 4 in a row |
 
-Some acts have a mix of points that can't meet every rule. When that happens, Wayfinder gives up rules in a fixed order, starting with the spread and the run limits on fights. Every point still goes on the path.
+Some acts have a mix of points that can't meet every rule. When that happens, Wayfinder drops rules in a fixed order. It starts with the spacing rules and the limits on fights in a row. Every point still goes on the path.
 
 ### Example Map
 ![A full act's ordered path on the Wayfinder map](/docs/assets/full_wayfinder_map.jpg)
 
-## Changes beyond the map
+## Encounters
 
-An act with this many points would run through the game's encounter list and bring weak encounters back. Wayfinder runs change three things to account for the longer acts:
+A longer act would use up the game's list of encounters and bring weak ones back late. Wayfinder changes three things to prevent that:
 
-- Each act draws twice as many weak encounters. On the Acts path length its normal encounter list is as long as the act's longest path can need. On the Full map it is twice the room count.
-- Once an act's encounter list runs out, fights stay random instead of replaying the list. Each Elite is a random pick that skips the one you just fought, and each late normal fight is a random regular encounter, never a weak one.
-- Relics limited to before the Act 3 chest stop appearing when Act 3 starts, instead of at a fixed floor.
-
-Wayfinder leaves combat stats, gold, and rewards alone.
+- Each act gets twice as many weak encounters. With the default path length, the normal encounter list is as long as the act can need. With Full map, it is twice the number of rooms.
+- When an act's list runs out, fights stay random instead of replaying the list. Each Elite is a random pick that skips the one you just fought. Each late normal fight is a random regular encounter, never a weak one. The same Elite or fight never comes twice in a row.
+- Relics that must appear before the Act 3 chest stop appearing when Act 3 starts, instead of at a fixed floor.
 
 ## Install
 
 You need Slay the Spire 2 version 0.107.0 or later and [BaseLib](https://github.com/Alchyr/BaseLib-StS2) 3.4.7 or later.
 
-1. Create a `mods` folder in the game's install folder if it doesn't exist.
+1. Create a `mods` folder in the game's install folder if it isn't there.
 2. Download BaseLib and unpack it into `mods`.
-3. Download the latest zip from the [releases page](https://github.com/atendev/sts2-wayfinder-mod/releases) and unpack it into `mods`, or [build it from source](#build-from-source).
+3. Download the latest zip from the [releases page](https://github.com/atendev/sts2-wayfinder-mod/releases) and unpack it into `mods`. You can also [build it from source](#build-from-source).
 4. Launch the game and choose to play modded.
 
 The finished folder looks like this:
@@ -114,42 +112,42 @@ Default Steam locations for the `mods` folder:
 
 Wayfinder is on by default. To turn it off, use the Enable Wayfinder toggle in the mod's settings.
 
-The Path length setting picks Acts (the default) or Full map. Every difficulty preset uses Acts.
+Settings take effect when you start a new run. A run already in progress keeps the settings it started with.
+
+**Path length** is either Acts (the default) or Full map. Every difficulty preset uses Acts.
 
 ### Difficulty
 
-A preset dropdown under Enable Wayfinder sets how hard a run is. Power curve is the default.
+A shorter path gives you fewer fights and rewards, so Wayfinder also makes runs harder. A dropdown under Enable Wayfinder sets the preset. Power curve is the default.
 
 | Preset | What it does |
 | --- | --- |
 | Off | Vanilla numbers, as in v0.1. |
 | Bosses only | Bosses get more HP and damage. Nothing else changes. |
-| Power curve | Enemies grow through Acts 2 and 3 and rewards are leaner, so Act 3 is the hardest stretch. |
-| Custom | Shown when you change any option away from its preset. |
+| Power curve | Enemies get stronger through Acts 2 and 3, and rewards are smaller, so Act 3 is the hardest part. |
+| Custom | Shown when you change an option away from its preset. |
 
-The options under the dropdown are:
+The options under the dropdown:
 
-- **Enemy scaling.** Toggles for boss scaling and for path HP and damage scaling. Scaled attack damage shows in the enemy's intent.
-- **Card rewards.** Alternate card rewards skips the card reward on every second normal combat, and Card choices sets how many cards a reward offers.
-- **Treasure chests.** Chests roll between a relic chest and a gold chest, with odds you can set.
-- **Elite relics.** Lower Elite relic rarity shifts an Elite's relic toward Common.
-- **Gold rate.** Lean, Vanilla, or Rich scales every gold gain.
+- **Enemy scaling.** Toggles for boss scaling and for HP and damage scaling along the path. Scaled attack damage shows in the enemy's intent.
+- **Card rewards.** Alternate card rewards skips the card reward on every second normal combat. Card choices sets how many cards a reward offers.
+- **Treasure chests.** Each chest is either a relic chest or a gold chest. You can set the odds.
+- **Elite relics.** Lower Elite relic rarity makes an Elite's relic more likely to be Common.
+- **Gold rate.** Lean, Vanilla, or Rich changes every gold gain.
 
-A run copies these settings when it starts and ignores later changes. When it ends, Wayfinder writes them to `history/wayfinder/<start_time>.json` next to the run history.
-
-The toggle takes effect when you start a new run. A run in progress stays as it is, whether it has unified paths or not.
+When a run ends, Wayfinder saves the settings it used to `history/wayfinder/<start_time>.json`, next to the run history.
 
 ## Compatibility
 
-- Works for both the normal version of the game as well as the `public-beta` version.
-- Wayfinder targets single-player. Co-op is untested, and the mod doesn't block it.
+- It works on both the normal version of the game and the `public-beta` version.
+- Wayfinder is made for single-player. Co-op is untested, and the mod doesn't block it.
 - Other mods that change the map are untested with Wayfinder.
 
 ## Build from source
 
 You need the .NET 9 SDK, an installed copy of Slay the Spire 2, and MegaDot 4.5.1 to export the `.pck`. The game won't load a `.pck` from a newer Godot version.
 
-Create `Directory.Build.props` in the repo root with your MegaDot path. Add `Sts2Path` as well if the build can't find the game.
+Create `Directory.Build.props` in the repo root with your MegaDot path. Add `Sts2Path` too if the build can't find the game.
 
 ```xml
 <Project>
@@ -175,7 +173,12 @@ dotnet test tests/OrderingTests
 
 ## Releasing
 
-Bump `version` in `sts2_wayfinder_mod.json`, add a matching `## vX.Y.Z` section to `docs/changelog.md`, merge to `main`, then run `scripts/release.sh`. It runs the tests, builds the `.pck`, zips the mod, tags the version, and publishes a GitHub release with the changelog section as notes. Use `--dry-run` to build the zip without tagging. The build needs the game's files, so it runs locally, not in CI.
+1. Change `version` in `sts2_wayfinder_mod.json`.
+2. Add a matching `## vX.Y.Z` section to `docs/changelog.md`.
+3. Merge to `main`.
+4. Run `scripts/release.sh`.
+
+The script runs the tests, builds the `.pck`, zips the mod, tags the version, and publishes a GitHub release with the changelog section as notes. Use `--dry-run` to build the zip without tagging. The build needs the game's files, so it runs on your machine, not in CI.
 
 ## License
 
