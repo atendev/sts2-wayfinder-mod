@@ -7,7 +7,8 @@
 # Usage: scripts/release.sh [--mode github|workshop] [--dry-run] [--yes]
 #   --mode     github (default): zip, tag the manifest version, and publish a GitHub release
 #              workshop: refresh the channel's workshop content and upload it with dist/mod-uploader/ModUploader
-#                        (workshop.json, image.png, and previews in the workspace are edited by hand)
+#                        (workshop.json, image.png, and previews in the workspace are edited by hand, except
+#                        changeNote, which is set from the changelog section)
 #   --dry-run  build and package only; no tag, push, release, or upload
 #   --yes      skip the confirmation prompt
 set -euo pipefail
@@ -89,9 +90,11 @@ STS2_PATH=$(dotnet msbuild "$MOD.csproj" -getProperty:Sts2Path)
 ACF="$STS2_PATH/../../appmanifest_2868840.acf"
 if [[ -f "$ACF" ]]; then
     INSTALLED_BRANCH=$(awk '/"MountedConfig"/ { on = 1 } on && /"BetaKey"/ { gsub(/"/, "", $2); print $2; exit }' "$ACF")
-    [[ "$CHANNEL" == "beta" ]] && WANT_BRANCH=public-beta || WANT_BRANCH=
+    # Steam records the default branch as "public", or leaves BetaKey out.
+    [[ "${INSTALLED_BRANCH:-public}" == "public" ]] && INSTALLED_BRANCH=public
+    [[ "$CHANNEL" == "beta" ]] && WANT_BRANCH=public-beta || WANT_BRANCH=public
     [[ "$INSTALLED_BRANCH" == "$WANT_BRANCH" ]] \
-        || die "the game is installed from branch '${INSTALLED_BRANCH:-default}', but $CHANNEL builds need '${WANT_BRANCH:-default}'. Switch branches in Steam first."
+        || die "the game is installed from branch '$INSTALLED_BRANCH', but $CHANNEL builds need '$WANT_BRANCH'. Switch branches in Steam first."
 else
     echo "warning: $ACF not found, so the installed game branch can't be checked" >&2
 fi
@@ -152,6 +155,15 @@ for ext in dll json pck; do
 done
 cp LICENSE README.md "$CONTENT/"
 cp docs/changelog.md "$CONTENT/CHANGELOG.md"
+python3 -I - "$WORKSPACE/workshop.json" "$VERSION" "$NOTES" <<'PY'
+import json, sys
+path, version, notes = sys.argv[1:4]
+with open(path, encoding="utf-8") as f:
+    workshop = json.load(f)
+workshop["changeNote"] = f"{version}\n\n{notes.strip()}"
+with open(path, "w", encoding="utf-8") as f:
+    json.dump(workshop, f, indent=4, ensure_ascii=False)
+PY
 echo "Staged $CONTENT"
 if [[ -f "$WORKSPACE/mod_id.txt" ]]; then
     echo "Updating Workshop item $(<"$WORKSPACE/mod_id.txt")"
