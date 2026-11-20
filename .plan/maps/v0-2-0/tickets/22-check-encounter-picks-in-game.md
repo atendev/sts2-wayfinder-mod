@@ -21,3 +21,7 @@ Checked against runs 4 and 5 (1795021557 and 1795070129) from `map_point_history
 - No normal encounter follows itself: met.
 - `GenerateRooms` count-read error: none. The one `error` hit in the 11-18 log is a BaseLib config warning, and the 11-20 logs are clean.
 - Save and reload mid-act: not confirmed. The run files and logs don't record a mid-act reload, so this needs one deliberate test.
+
+## Answer
+
+Encounter picks and list sizing work in game. Runs 4 and 5 showed every pool Elite once before a repeat, no Elite or normal fight following itself, no late weak encounters, and no `GenerateRooms` error in the logs. The user saved and reloaded mid-act in run 5 and the upcoming fights stayed the same. Nothing else needed a fix.

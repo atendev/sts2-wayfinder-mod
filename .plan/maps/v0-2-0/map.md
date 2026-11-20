@@ -47,6 +47,7 @@ Wayfinder v0.2.0 ships difficulty settings with the Off, Bosses only, and Power 
 - [Build per-act point ranges and the Path length setting](./tickets/20-build-per-act-point-ranges.md) — each act rolls its length and type counts from `ActPlans` and the run seed with per-act Elite placement (Act 1 none in the first third and spaced out, Act 3 pairs); the Path length setting (Acts, Full map) is Acts in every preset, snapshotted and in the sidecar, and the normal list is sized to the act; `ScaleRoomCount` is untested in game.
 - [Build random encounter picks after each pool runs out](./tickets/21-build-random-encounter-picks.md) — a `GenerateRooms` postfix rewrites each act's saved Elite and normal lists with the generation rng: Elites are a seeded shuffle of the pool then random picks skipping the last, normal fights are vanilla's list then random regular encounters, so picks survive a reload; untested in game.
 - [Playtest a Power curve run and compare it with the baseline](./tickets/18-playtest-power-curve.md) — runs 4 and 5 on the shorter path both won and felt balanced: Act 3 Elites and boss 5.3 to 6.2 turns and 35 to 39 damage, 7 relics at the end of Act 1, and 55 and 69 max HP gained; the one miss (run 5 max HP) is accepted.
+- [Check random encounter picks and reload in game](./tickets/22-check-encounter-picks-in-game.md) — runs 4 and 5 showed each pool Elite once before a repeat, no repeats back to back, no late weak encounters, and no `GenerateRooms` error, and a mid-act reload in run 5 kept the same fights.
 
 ## Not yet specified
 
