@@ -1,5 +1,6 @@
 using System.Reflection;
 using HarmonyLib;
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -61,7 +62,7 @@ internal static class CardRewardsPatch
 }
 
 [HarmonyPatch(typeof(CardReward), MethodType.Constructor,
-    [typeof(CardCreationOptions), typeof(int), typeof(Player), typeof(PlayerChoiceSynchronizer)])]
+    [typeof(CardCreationOptions), typeof(int), typeof(Player), typeof(PlayerChoiceSynchronizer), typeof(CardSelectorStack)])]
 internal static class CardChoiceCountPatch
 {
     private static void Prefix(ref int cardCount)

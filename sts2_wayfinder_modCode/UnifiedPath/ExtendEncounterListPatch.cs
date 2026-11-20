@@ -2,7 +2,9 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.Unlocks;
 using sts2_wayfinder_mod.sts2_wayfinder_modCode.Difficulty;
 using sts2_wayfinder_mod.sts2_wayfinder_modCode.Ordering;
 
@@ -12,10 +14,10 @@ namespace sts2_wayfinder_mod.sts2_wayfinder_modCode.UnifiedPath;
 /// Resizes the weak encounter draws and the normal encounter list, only inside <c>GenerateRooms</c>, for a run started with Wayfinder enabled.
 /// The weak draws double. The list doubles on the Full map path and is sized to the act's longest path on the Acts path.
 /// </summary>
-[HarmonyPatch(typeof(ActModel), nameof(ActModel.GenerateRooms))]
+[HarmonyPatch(typeof(ActModel), nameof(ActModel.GenerateRooms), [typeof(Rng), typeof(UnlockState), typeof(bool), typeof(bool)])]
 internal static class ExtendEncounterListPatch
 {
-    private const int ExpectedCountReads = 3;
+    private const int ExpectedCountReads = 2;
 
     private static readonly MethodInfo NumberOfWeakEncounters = AccessTools.PropertyGetter(typeof(ActModel), "NumberOfWeakEncounters");
     private static readonly MethodInfo GetNumberOfRooms = AccessTools.Method(typeof(ActModel), nameof(ActModel.GetNumberOfRooms));

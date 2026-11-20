@@ -2,12 +2,13 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Unlocks;
 using sts2_wayfinder_mod.sts2_wayfinder_modCode.Ordering;
 
 namespace sts2_wayfinder_mod.sts2_wayfinder_modCode.UnifiedPath;
 
 /// <summary>Rewrites the Elite and normal encounter lists after <c>GenerateRooms</c> for a run started with Wayfinder enabled, so picks stay random after the vanilla list runs out.</summary>
-[HarmonyPatch(typeof(ActModel), nameof(ActModel.GenerateRooms))]
+[HarmonyPatch(typeof(ActModel), nameof(ActModel.GenerateRooms), [typeof(Rng), typeof(UnlockState), typeof(bool), typeof(bool)])]
 internal static class RandomEncounterPicksPatch
 {
     private static readonly AccessTools.FieldRef<ActModel, RoomSet> Rooms = AccessTools.FieldRefAccess<ActModel, RoomSet>("_rooms");

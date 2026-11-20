@@ -3,6 +3,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Nodes.Screens.Map;
+using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Runs;
 using sts2_wayfinder_mod.sts2_wayfinder_modCode.Layout;
 
@@ -16,16 +17,13 @@ internal static class DrawSwitchbackPatch
         AccessTools.MethodDelegate<Func<NMapScreen, NMapPoint, Vector2>>(
             AccessTools.Method(typeof(NMapScreen), "GetLineEndpoint"));
 
-    private static readonly Func<NMapScreen, Vector2, Vector2, IReadOnlyList<TextureRect>> CreatePath =
-        AccessTools.MethodDelegate<Func<NMapScreen, Vector2, Vector2, IReadOnlyList<TextureRect>>>(
-            AccessTools.Method(typeof(NMapScreen), "CreatePath"));
-
     private static void Postfix(
         NMapScreen __instance,
         ActMap map,
+        ulong seed,
         RunState ____runState,
-        float ____distX,
-        float ____distY,
+        Control ____points,
+        Control ____pathsContainer,
         Dictionary<MapCoord, NMapPoint> ____mapPointDictionary,
         Dictionary<(MapCoord, MapCoord), IReadOnlyList<TextureRect>> ____paths,
         Vector2 ____tickTraveledScale)
@@ -37,14 +35,15 @@ internal static class DrawSwitchbackPatch
         if (points.Count < SwitchbackLayout.MinPoints)
             return;
 
+        // SwitchbackLayout is authored in the point container's center frame. The stock screen now shifts points by half of
+        // the container size, so apply the same shift, and replay its jitter stream so the points keep their stock wobble.
+        var jitter = Jitter(map, seed, ____runState.CurrentActIndex);
+        var origin = ____points.Size * 0.5f;
         var positions = SwitchbackLayout.Positions(points.Count, map.SecondBossMapPoint != null);
         for (var i = 0; i < points.Count; i++)
         {
             var coord = points[i].coord;
-            var node = ____mapPointDictionary[coord];
-            var stock = new Vector2(-500f + coord.col * ____distX, 740f - coord.row * ____distY);
-            var jitter = node.Position - stock;
-            node.Position = new Vector2(positions[i].X, positions[i].Y) + jitter;
+            ____mapPointDictionary[coord].Position = new Vector2(positions[i].X, positions[i].Y) + origin + jitter[coord];
         }
 
         foreach (var (link, dots) in ____paths.ToList())
@@ -52,10 +51,11 @@ internal static class DrawSwitchbackPatch
             foreach (var dot in dots)
                 dot.QueueFreeSafely();
 
-            ____paths[link] = CreatePath(
-                __instance,
+            ____paths[link] = NMapScreen.CreatePath(
                 GetLineEndpoint(__instance, ____mapPointDictionary[link.Item1]),
-                GetLineEndpoint(__instance, ____mapPointDictionary[link.Item2]));
+                GetLineEndpoint(__instance, ____mapPointDictionary[link.Item2]),
+                ____pathsContainer,
+                ____runState.Act.MapUntraveledColor);
         }
 
         var visited = ____runState.VisitedMapCoords;
@@ -70,5 +70,18 @@ internal static class DrawSwitchbackPatch
                 dot.Scale = ____tickTraveledScale;
             }
         }
+    }
+
+    private static Dictionary<MapCoord, Vector2> Jitter(ActMap map, ulong seed, int actIndex)
+    {
+        var rng = new Rng(seed, $"map_jitter_{actIndex}");
+        var jitter = new Dictionary<MapCoord, Vector2>();
+        foreach (var point in map.GetAllMapPoints())
+        {
+            var x = rng.NextFloat(-21f, 21f);
+            var y = rng.NextFloat(-25f, 25f);
+            jitter[point.coord] = new Vector2(x, y);
+        }
+        return jitter;
     }
 }

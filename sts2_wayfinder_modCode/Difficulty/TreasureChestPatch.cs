@@ -59,12 +59,12 @@ internal static class TreasureChestState
 [HarmonyPatch(typeof(TreasureRoomRelicSynchronizer), nameof(TreasureRoomRelicSynchronizer.BeginRelicPicking))]
 internal static class TreasureChestOutcomePatch
 {
-    private static void Prefix(IPlayerCollection ____playerCollection, Rng ____rng)
+    private static void Prefix(IRunState ____runState, Rng ____rng)
     {
         TreasureChestState.Clear();
 
-        var runState = ____playerCollection.Players.FirstOrDefault()?.RunState;
-        if (runState == null || !UnifiedActMap.IsLine(runState.Map) || runState.CurrentMapCoord is not { } coord)
+        var runState = ____runState;
+        if (!UnifiedActMap.IsLine(runState.Map) || runState.CurrentMapCoord is not { } coord)
             return;
 
         var odds = DifficultySettings.For(runState).Treasure;
@@ -72,7 +72,7 @@ internal static class TreasureChestOutcomePatch
             return;
 
         // Silver Crucible's emptied chest gets no roll, and its owner is the only player it skips.
-        if (!____playerCollection.Players.Any(player => Hook.ShouldGenerateTreasure(runState, player)))
+        if (!runState.Players.Any(player => Hook.ShouldGenerateTreasure(runState, player)))
             return;
 
         var isRelicChest = TreasureChestTable.IsRelicChest(odds, TreasureChestState.EarlierChests(runState),
@@ -117,9 +117,9 @@ internal static class GoldChestRewardPatch
         if (!Hook.ShouldGenerateTreasure(player.RunState, player))
             return 0;
 
-        var gold = player.PlayerRng.Rewards.NextInt(42, 53) * (double)multiplier;
+        var gold = player.PlayerRng.Rewards.NextInt(42, 53) * multiplier;
         if (AscensionHelper.HasAscension(AscensionLevel.Poverty))
-            gold *= AscensionHelper.PovertyAscensionGoldMultiplier;
+            gold *= AscensionHelper.povertyAscensionGoldMultiplier;
 
         await PlayerCmd.GainGold((int)gold, player);
         var spoils = await (Task<int>)TryHandleSpoilsMap.Invoke(synchronizer, [player])!;
