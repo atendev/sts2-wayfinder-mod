@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.1
+
+- The mod's .pck no longer contains extra files. v0.2.0's .pck carried decompiled game scripts and other project files that the mod doesn't use. Gameplay is unchanged.
+- Checked against the game's normal branch, version 0.111.1.
+- On the game's public-beta branch, use the separate public-beta build instead (v0.2.0-beta.1 or later).
+
 ## v0.2.0
 
 - Wayfinder runs now scale enemies. Monster, Elite, and Unknown fights get more HP and damage along Acts 2 and 3, and bosses get a fixed boost per act. Act 1 stays vanilla. Scaled attack damage shows in the enemy's intent.
