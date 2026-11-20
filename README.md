@@ -4,7 +4,7 @@
 
 A Slay the Spire 2 mod that turns each act's branching map into one long, reshuffled path.
 
-![Version](https://img.shields.io/badge/version-v0.1.1-blue)
+![Version](https://img.shields.io/badge/version-v0.2.0-blue)
 ![Status](https://img.shields.io/badge/status-in%20development-orange)
 ![Slay the Spire 2](https://img.shields.io/badge/Slay%20the%20Spire%202-0.107.0%2B-b5332e)
 [![BaseLib](https://img.shields.io/badge/BaseLib-3.4.7%2B-6a4fb3)](https://github.com/Alchyr/BaseLib-StS2)
@@ -18,7 +18,7 @@ Why speedrun Slay the Spire 2 when you could take your time, see the sights, and
 Wayfinder turns each act into one line, so you visit each combat, shop, chest, and rest site instead of picking a route past most of them. It doesn't join the existing paths end to end. It rolls each act's points from a plan and orders them with spacing rules, so you don't get two Elites back to back or five chests in a row.
 
 > [!WARNING]
-> v0.1.1 is still in development. The mod builds and its ordering tests pass, but it has not been extensively tested. Expect bugs.
+> v0.2.0 is still in development. The mod builds and its ordering tests pass, but it has not been extensively tested. Expect bugs.
 
 ## What it does
 
@@ -115,6 +115,27 @@ Default Steam locations for the `mods` folder:
 Wayfinder is on by default. To turn it off, use the Enable Wayfinder toggle in the mod's settings.
 
 The Path length setting picks Acts (the default) or Full map. Every difficulty preset uses Acts.
+
+### Difficulty
+
+A preset dropdown under Enable Wayfinder sets how hard a run is. Power curve is the default.
+
+| Preset | What it does |
+| --- | --- |
+| Off | Vanilla numbers, as in v0.1. |
+| Bosses only | Bosses get more HP and damage. Nothing else changes. |
+| Power curve | Enemies grow through Acts 2 and 3 and rewards are leaner, so Act 3 is the hardest stretch. |
+| Custom | Shown when you change any option away from its preset. |
+
+The options under the dropdown are:
+
+- **Enemy scaling.** Toggles for boss scaling and for path HP and damage scaling. Scaled attack damage shows in the enemy's intent.
+- **Card rewards.** Alternate card rewards skips the card reward on every second normal combat, and Card choices sets how many cards a reward offers.
+- **Treasure chests.** Chests roll between a relic chest and a gold chest, with odds you can set.
+- **Elite relics.** Lower Elite relic rarity shifts an Elite's relic toward Common.
+- **Gold rate.** Lean, Vanilla, or Rich scales every gold gain.
+
+A run copies these settings when it starts and ignores later changes. When it ends, Wayfinder writes them to `history/wayfinder/<start_time>.json` next to the run history.
 
 The toggle takes effect when you start a new run. A run in progress stays as it is, whether it has unified paths or not.
 

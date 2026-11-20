@@ -3,12 +3,12 @@
   "name": "Wayfinder",
   "author": "atendev",
   "description": "Combines each act's points into one unified path. With the Acts path length, each act has its own length and mix. Act 1, Build the deck: fights and card rewards drive growth, Elites come later and spread out, rest is generous. Act 2, The wilds: the most Unknowns and Shops, the widest Elite swing. Act 3, The gauntlet: the shortest and most Elite-dense act, with Elite pairs.",
-  "version": "v0.1.1",
+  "version": "v0.2.0",
   "min_game_version": "0.107.0",
   "has_pck": true,
   "has_dll": true,
   "dependencies": [
-    {"id": "BaseLib", "min_version": "3.4.7"}
+    {"id": "BaseLib", "min_version": "3.4.8"}
   ],
   "affects_gameplay": true
 }
